@@ -26,12 +26,17 @@ test("sign in, setup, save/reopen, download PDF and sign out", async ({ page }) 
    await page.getByLabel("Rate 1", {exact:true}).fill("125.50");
    await page.getByRole("button",{name:"Save draft",exact:true}).click();
    await expect(page.getByRole("main").getByText("Saved on this device", {exact:true})).toBeVisible();
-   const downloading = page.waitForEvent("download");
-   await page.getByRole("button",{name:"Download PDF",exact:true}).click();
-   const download = await downloading;
-   expect(download.suggestedFilename()).toMatch(/\.pdf$/);
-   const bytes = await readFile((await download.path())!);
-   expect(bytes.subarray(0,5).toString()).toBe("%PDF-");
+   for (const [language, description] of [["en","Professional service"],["si","නිර්මාණ සේවාව"],["ta","வடிவமைப்பு சேவை"]]) {
+     await page.getByLabel("Document language", {exact:true}).selectOption(language);
+     await page.getByLabel("Description 1", {exact:true}).fill(description);
+     const downloading = page.waitForEvent("download");
+     await page.getByRole("button",{name:"Download PDF",exact:true}).click();
+     const download = await downloading;
+     expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+     const bytes = await readFile((await download.path())!);
+     expect(bytes.subarray(0,5).toString()).toBe("%PDF-");
+     expect(bytes.length).toBeGreaterThan(1000);
+   }
    await page.getByRole("button",{name:"Back to documents",exact:true}).click();
  }
  await page.reload();
