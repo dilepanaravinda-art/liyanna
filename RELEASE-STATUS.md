@@ -18,6 +18,10 @@ The owner authorized pausing `investara-production`. It is now INACTIVE, and Liy
 
 These database tests do not prove password login, browser interaction, PDF output or network synchronization through the frontend. Health advisors returned no findings. The security advisor reports leaked-password protection disabled; see https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection.
 
+## Latest local validation
+
+The latest source passed a fresh locked dependency install, TypeScript, release preflight, 142 Node tests and 65 Vitest tests (207 total), the full Next.js production build, and production runtime smoke tests. The three new PDF tests render real multipage invoice and quotation documents using the application template and exercise bundled English/Sinhala/Tamil fonts through the PDF probe. They validate PDF structure and pagination, not browser shaping or visual appearance. No application runtime behavior changed in this follow-up; the preview continues to serve the previously verified runtime.
+
 ## Still unverified
 
 - Actual password sign-in and account recovery through the deployed browser app.
