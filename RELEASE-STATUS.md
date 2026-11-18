@@ -1,20 +1,26 @@
-# LIYANNA release status — Iteration 40
+# LIYANNA release status — 18 November 2026
 
-## Verified locally
-- Existing Node.js integration tests and release preflight (run separately).
-- New source includes an unauthenticated `/api/health` liveness endpoint with no tenant data or secrets.
-- CI now builds and boots the real Next.js production server, checks the homepage and health endpoint, and asserts the integration worker rejects unauthenticated POST requests.
+## Completed and verified
 
-## NOT yet verified
-- Dependency installation, TypeScript compilation, Next.js build, and new production smoke execution: npm registry unavailable in this execution environment.
-- Live Supabase migrations, live FINBASE integration, end-to-end browser journeys and preview deployment.
+The recovered source is on `release/verified-source-20261118` in https://github.com/dilepanaravinda-art/liyanna/pull/1. The deployed application commit is `82e787f374ebbc9ff3aaf92b4b2b0201d6fec2ba`.
 
-## Next release gate
-1. Publish the complete `liyanna-full-source` tree to a reviewed Git branch (the existing GitHub repository may not have this layout).
-2. Run `.github/workflows/validate.yml` on GitHub and resolve any failed checks.
-3. Validate migrations on a non-production Supabase project.
-4. Deploy a Vercel **preview**, test authentication, invoice lifecycle and PDF output.
-5. Verify FINBASE contract and credential resolver before enabling the scheduled worker.
-6. Promote only after all gates pass and explicit release approval.
+GitHub Actions run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44345786008 completed successfully. Vercel deployment `dpl_9ghwKfK8ppYgpmyoHwzazfzstfbK` is READY at https://liyanna-preview.vercel.app.
 
-Do not enable the worker by only setting a cron secret. Its server handler is intentionally disabled until a real database adapter and vault are wired and verified.
+Both environments passed locked dependency installation, source preflight, TypeScript validation, 142 Node tests, 62 Vitest tests, the full Next.js production build and production runtime smoke tests (homepage, liveness and unauthenticated worker rejection). The live preview homepage, `/api/health` and `/api/ready` also returned HTTP 200.
+
+The compilation failure in the lifecycle guard was fixed without widening its public overloads. Node and Vitest suites now have distinct runners, and pnpm is pinned to the version used in CI.
+
+## Current blocking decision
+
+The existing Liyanna Supabase project `yfbbwehvisofdkjtzacz` reports INACTIVE. Its resume request was rejected due to the account's two-active-free-project limit. The active projects are `investara-production` and `vantoryx-webstudio`.
+
+An owner must choose whether to upgrade the relevant Supabase plan or pause an explicitly selected active project before LIYANNA can resume. Pausing another project interrupts that project's backend. No other project was modified and no plan was upgraded.
+
+## Still unverified
+
+- Live authentication and database schema compatibility, because the database is paused.
+- Signed-in invoice/quotation workflows, browser PDF output and cloud synchronization.
+- Execution of additive migrations against an isolated staging database.
+- Live FINBASE contract, credentials, synchronization and scheduled worker activation.
+
+`/api/ready` confirms public configuration only; it does not prove Supabase availability. The worker remains disabled and unauthenticated requests return 401. The preview retains existing deployment protection. Production traffic has not been promoted.

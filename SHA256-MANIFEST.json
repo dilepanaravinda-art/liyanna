@@ -1,8 +1,13 @@
 [
   {
     "path": ".github/workflows/validate.yml",
-    "bytes": 1104,
-    "sha256": "114255c508401905dd6f08151166be9b9cc89372a0c45f0cb59647bdaedf8d9f"
+    "bytes": 1184,
+    "sha256": "abcc163ff044e761705049cba39ce469216f5bb047bdf218ebe0aaf78981b04f"
+  },
+  {
+    "path": ".gitignore",
+    "bytes": 116,
+    "sha256": "41fcf958d8c5bed00f597aaf6c4b163ee4041020a9d6eb7399dda2f5d7ae4931"
   },
   {
     "path": "ITERATION-18.md",
@@ -16,8 +21,18 @@
   },
   {
     "path": "README.md",
-    "bytes": 4313,
-    "sha256": "a2b2e4ba25f88d9a7b60ce66ed0b88e2f7bb93ae53d71fa7e0a8477fb7780d9f"
+    "bytes": 2324,
+    "sha256": "6687d5605264afcdab15a37eb5bcd42da247909f8b2db4368495c812c192db3c"
+  },
+  {
+    "path": "RELEASE-HANDOFF.md",
+    "bytes": 1109,
+    "sha256": "bf4c22b8b0a771d0d56998468092e25f16060969ff7804c15c1001a36d081ab0"
+  },
+  {
+    "path": "RELEASE-STATUS.md",
+    "bytes": 2161,
+    "sha256": "d57817cd504724fde910fee694a43ef5205e26f1e6a08acb87971b1b7a2b5c2f"
   },
   {
     "path": "database/auth-settings-reference.json",
@@ -115,6 +130,11 @@
     "sha256": "ddd890d715026e22a6f13ebe60a0abdd2ab8d4b158f8a3e0636fa16f83216ec5"
   },
   {
+    "path": "docs/RECOVERY-REFERENCE.md",
+    "bytes": 4313,
+    "sha256": "a2b2e4ba25f88d9a7b60ce66ed0b88e2f7bb93ae53d71fa7e0a8477fb7780d9f"
+  },
+  {
     "path": "docs/VIG-CONNECTION-BACKEND-DESIGN.md",
     "bytes": 2727,
     "sha256": "3e7ddbcf93f47dbc37b3be31fa3f238c5566336831c3bdf3ea5e2bc5b52b39bc"
@@ -125,14 +145,24 @@
     "sha256": "0279d3ad2cfd8b87d1549b58ba8618a299745cad8c8c9848277e92ee311a68aa"
   },
   {
+    "path": "docs/iteration-35.md",
+    "bytes": 1053,
+    "sha256": "7ee1d566991f95c6bb840a15a00d8f8210e7d5b2aacf0e7bf4b9ab23b0631b4b"
+  },
+  {
+    "path": "docs/iteration-37.md",
+    "bytes": 676,
+    "sha256": "971e4ed654f67d91e9a81fedea2a1d1c82d440f0c7bb45166d33fdc42cdc7da2"
+  },
+  {
     "path": "environment.example",
     "bytes": 64,
     "sha256": "cb242010afc4b46d61b48b04c557f8b0fdd3fbc691f9ea5ca5476d6b9b13c277"
   },
   {
     "path": "project/.github/workflows/validate.yml",
-    "bytes": 1052,
-    "sha256": "cce40ed0bb1a0c07100903b9e6b080d21495839b02c4552ffff87fa4ed06528b"
+    "bytes": 1132,
+    "sha256": "61bb108c015121530e222616c889e1e585680280827b234c82805e649c6b06b2"
   },
   {
     "path": "project/.npmrc",
@@ -245,6 +275,31 @@
     "sha256": "99ce6f1f36fbda63a03c446c4389d5716974013039364372c1f0dc84ddd40224"
   },
   {
+    "path": "project/docs/iteration-36.md",
+    "bytes": 557,
+    "sha256": "66421d5f0666846c14763143ef019dfd9b4a04af26e88eae20fb04f9318f52f8"
+  },
+  {
+    "path": "project/docs/iteration-38.md",
+    "bytes": 1503,
+    "sha256": "1acb4950e1c2d722f851ab59e1d14d9690267900eed770d5d84a9316fd080dc7"
+  },
+  {
+    "path": "project/docs/iteration-39.md",
+    "bytes": 477,
+    "sha256": "beaabff6a5240dc38bfba6e6f508133491b5fad338acba498fd76f37fba76f15"
+  },
+  {
+    "path": "project/docs/iteration-42.md",
+    "bytes": 702,
+    "sha256": "0b5b8dfa24c853d2bea3781346ab875c11be8d41698236e23ca0ef511c329a79"
+  },
+  {
+    "path": "project/docs/iteration-43.md",
+    "bytes": 849,
+    "sha256": "87a24bafd09da7b2cb20096efb03cdb2c74d2b3afe0b2391a64f245eb128c5b5"
+  },
+  {
     "path": "project/next-env.d.ts",
     "bytes": 288,
     "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b"
@@ -256,8 +311,8 @@
   },
   {
     "path": "project/package.json",
-    "bytes": 1201,
-    "sha256": "e6d38e06609d1da3f89f01e2576c1e76a92fbffd1289db8d2dec81d8c8060c7c"
+    "bytes": 1503,
+    "sha256": "7527259a1b564040e178116765fcca40e1bfa72c6338516c9222b14adf8041d5"
   },
   {
     "path": "project/pnpm-lock.yaml",
@@ -305,6 +360,16 @@
     "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb"
   },
   {
+    "path": "project/scripts/smoke-deployment.mjs",
+    "bytes": 1836,
+    "sha256": "c3a95b4719950280c7bfe6f9de18feede45bc72e4592a297b2bcc57fac5e5337"
+  },
+  {
+    "path": "project/scripts/smoke-production.mjs",
+    "bytes": 2405,
+    "sha256": "8f9922e0ad22e48e7c9fdf4444b3b6bbb412bfc9b702101a89e47df331f3ef6e"
+  },
+  {
     "path": "project/scripts/verify-archive-layout.mjs",
     "bytes": 1604,
     "sha256": "4fb49fa97bbfa6c5784202d43ec27be9872d96d11b3e8e6972964e6e383516e0"
@@ -323,6 +388,11 @@
     "path": "project/scripts/verify-ci.test.mjs",
     "bytes": 774,
     "sha256": "5bd04bd5bd9ac543fb204c1ab8476f439727d04f76f5a139ee665d0c5a312f0a"
+  },
+  {
+    "path": "project/scripts/verify-deployment-readiness.test.mjs",
+    "bytes": 903,
+    "sha256": "96fd35dc3164fa8b6160b657a30145dba8aa751630aeedc41dbc1c12bab5adbc"
   },
   {
     "path": "project/scripts/verify-imports.mjs",
@@ -375,9 +445,29 @@
     "sha256": "d1f57ca6edb43a8f5f1d6308e34b6acfcf2443bd39bd8a70017e83629fcc206c"
   },
   {
+    "path": "project/scripts/verify-worker-contract.mjs",
+    "bytes": 2323,
+    "sha256": "1fcb4d468a1921f57eac8d469bf33e598872b8cdbd776c21e0d3646d52874026"
+  },
+  {
+    "path": "project/scripts/verify-worker-contract.test.mjs",
+    "bytes": 1330,
+    "sha256": "1702010611066d9c23adfe28bcd48448b8e940a73cac9f00e5ef4a5ed198009f"
+  },
+  {
+    "path": "project/src/app/api/health/route.ts",
+    "bytes": 303,
+    "sha256": "b2a1ccaa6d1e8a73c53e41c8e91c97a5c201eab13dc7c15ddd19ade6a1a4f15a"
+  },
+  {
     "path": "project/src/app/api/integrations/worker/route.ts",
     "bytes": 576,
     "sha256": "6a4c0da6646c4dd39a6cdde671462ab5a459a0bc8e0ae18df1cb92b06a31172c"
+  },
+  {
+    "path": "project/src/app/api/ready/route.ts",
+    "bytes": 524,
+    "sha256": "eefdb4e3e86ac24497a3f2a48633ab9cc132351a751ae6d0803dad37c974cdb3"
   },
   {
     "path": "project/src/app/globals.css",
@@ -451,8 +541,8 @@
   },
   {
     "path": "project/src/domain/lifecycle.ts",
-    "bytes": 2010,
-    "sha256": "31639d6e0a329bc4d3f75e4a291a71e8cff7c6c3104b033ea1964faa30694889"
+    "bytes": 2174,
+    "sha256": "aa7984301fa301e55c54afed403c0a0970a04006618f3acae3386af92394f21e"
   },
   {
     "path": "project/src/domain/model.ts",
@@ -615,14 +705,24 @@
     "sha256": "ecf939aa5fbba09acc3dc378de27a4c22783a39bee679f111b569c0fa5d7cddb"
   },
   {
+    "path": "project/src/integrations/vig/connection-validity.mjs",
+    "bytes": 664,
+    "sha256": "0fe3ffd664f4ab98ca0d0c500eeb84455482c37b52b33babe27380ecd6503cf3"
+  },
+  {
+    "path": "project/src/integrations/vig/connection-validity.test.mjs",
+    "bytes": 1157,
+    "sha256": "44f999b9fa3985f63c9d03859f39509f49a3b430de9a8fd6a4f575eec025d93d"
+  },
+  {
     "path": "project/src/integrations/vig/delivery-processor.mjs",
-    "bytes": 2058,
-    "sha256": "298e75bc500a2b3ccbdef066a823ff50d8d8423ae6b1fcdd37531840ade17c29"
+    "bytes": 2616,
+    "sha256": "18071738914d42dc6fb2ee089697f8f02f4b78023de27492f0176360d841b8d1"
   },
   {
     "path": "project/src/integrations/vig/delivery-processor.test.mjs",
-    "bytes": 2034,
-    "sha256": "896211d76b6ee32c22337e8bea5980c4bfff77c388646f4667af6bb057be01b2"
+    "bytes": 3223,
+    "sha256": "c33e8e66f87ed405ea667e432f42a60d8e6d225e0f3ac954255116f64d26904e"
   },
   {
     "path": "project/src/integrations/vig/delivery-worker.test.ts",
@@ -666,8 +766,8 @@
   },
   {
     "path": "project/src/integrations/vig/postgres-repository.mjs",
-    "bytes": 3210,
-    "sha256": "e031b62c3d9b8819a487974e47790dced7f4fb593722c31cdfb866663f98dd1e"
+    "bytes": 2986,
+    "sha256": "4d5fb43628303e56cf0bc01bb7183e721cb51dea16d297ce13bb31418be9c075"
   },
   {
     "path": "project/src/integrations/vig/postgres-repository.test.mjs",
@@ -696,13 +796,13 @@
   },
   {
     "path": "project/src/integrations/vig/scheduled-handler.mjs",
-    "bytes": 1547,
-    "sha256": "bee0278a44f426928dead0a89c206fa1b04dda357c362adc6d5bcb4ab6a97ae5"
+    "bytes": 1991,
+    "sha256": "94fe46aba51ec0fb4e740ea2f695a6e437a23b4c114e982770695099928ab4aa"
   },
   {
     "path": "project/src/integrations/vig/scheduled-handler.test.mjs",
-    "bytes": 2266,
-    "sha256": "e2eef92c9f4631d05f691ba4593aeb1b43b0f25ff00f30b26ae73bd1c0de95d8"
+    "bytes": 3782,
+    "sha256": "3ea3b7370cec6f31de6a4db568f4f106e0a24c44b79eedaecfa4b16c4e3c9a83"
   },
   {
     "path": "project/src/integrations/vig/secure-transport.mjs",
@@ -725,6 +825,11 @@
     "sha256": "770dbb07058fb342f366ecbf018a95043519bfb3905eb2b06005fcf064d1b879"
   },
   {
+    "path": "project/src/integrations/vig/worker-end-to-end.test.mjs",
+    "bytes": 4220,
+    "sha256": "186b211ed59b2c948207b713eed0dff69770ae210b91b6110c0c8df26dc7e809"
+  },
+  {
     "path": "project/src/integrations/vig/worker-runtime.mjs",
     "bytes": 2797,
     "sha256": "1bc7a5e9d8e7170695515a95b5b2807042e57232c826a77404a50e04cf40f021"
@@ -736,8 +841,8 @@
   },
   {
     "path": "project/src/integrations/vig/worker-service.mjs",
-    "bytes": 3348,
-    "sha256": "e99d52b8322d0a46817c842d357ddf02c81e83709f9cc549a8a961d0355e37bd"
+    "bytes": 3250,
+    "sha256": "af137c38e6d6edd3b0d7666d102085fa8da5af58f3b186ce58ed70b836a337f8"
   },
   {
     "path": "project/src/integrations/vig/worker-service.test.mjs",
@@ -793,6 +898,11 @@
     "path": "project/tsconfig.json",
     "bytes": 654,
     "sha256": "916de057201cda7f7e85ca303609a27ee92d04f8150eed19a663911e28a74ac6"
+  },
+  {
+    "path": "project/vitest.config.ts",
+    "bytes": 156,
+    "sha256": "f7b586a422f3f36b69adaf976772e35ca6780a6eadc96cb7e88fbce6d3b76723"
   },
   {
     "path": "recovery/application-manifest.json",
