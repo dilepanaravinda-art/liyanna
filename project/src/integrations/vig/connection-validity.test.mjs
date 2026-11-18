@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { isActiveDeliveryConnection } from './connection-validity.mjs';
+const valid = { status:'active', consented_at:'2026-01-01T00:00:00Z', expires_at:null, revoked_at:null, requires_approval:false };
+test('valid consent and grant allow delivery',()=>assert.equal(isActiveDeliveryConnection(valid,true),true));
+test('invalid expiry fails closed',()=>assert.equal(isActiveDeliveryConnection({...valid,expires_at:'invalid'},true),false));
+test('expired consent fails closed',()=>assert.equal(isActiveDeliveryConnection({...valid,expires_at:'2026-02-01T00:00:00Z'},true),false));
+test('future consent fails closed',()=>assert.equal(isActiveDeliveryConnection({...valid,consented_at:'2099-01-01T00:00:00Z'},true),false));
+test('invalid consent fails closed',()=>assert.equal(isActiveDeliveryConnection({...valid,consented_at:'invalid'},true),false));
+test('revoked grant fails closed',()=>assert.equal(isActiveDeliveryConnection(valid,false),false));
+test('approval-required grant fails closed',()=>assert.equal(isActiveDeliveryConnection({...valid,requires_approval:true},true),false));

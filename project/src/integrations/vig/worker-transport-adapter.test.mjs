@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {adaptClaimedEvent,createWorkerTransport} from './worker-transport-adapter.mjs';
+const base={connectionId:'c1',tenantId:'t1',businessId:'b1',eventType:'liyanna.invoice.issued',envelope:{eventId:'12345678-1234-4234-8234-123456789012',tenantId:'t1',businessId:'b1'}};
+test('maps schema eventId to transport id',()=>assert.equal(adaptClaimedEvent(base).envelope.id,base.envelope.eventId));
+test('preserves original envelope without mutation',()=>{const out=adaptClaimedEvent(base);assert.equal(base.envelope.id,undefined);assert.equal(out.envelope.eventId,base.envelope.eventId)});
+test('rejects cross tenant envelopes',()=>assert.throws(()=>adaptClaimedEvent({...base,envelope:{...base.envelope,tenantId:'other'}}),/tenant mismatch/));
+test('rejects cross business envelopes',()=>assert.throws(()=>adaptClaimedEvent({...base,envelope:{...base.envelope,businessId:'other'}}),/business mismatch/));
+test('rejects inconsistent event types',()=>assert.throws(()=>adaptClaimedEvent({...base,envelope:{...base.envelope,eventType:'other'}}),/event type mismatch/));
+test('rejects missing event IDs',()=>assert.throws(()=>adaptClaimedEvent({...base,envelope:{}}),/event ID/));
+test('bridges to transport',async()=>{let received;await createWorkerTransport({deliver:async(e)=>{received=e}}).deliver(base);assert.equal(received.envelope.id,base.envelope.eventId)});

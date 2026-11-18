@@ -1,0 +1,19 @@
+LIYANNA DEPLOYMENT SOURCE RECOVERY
+
+Deployment: dpl_HHc7dYKzPg3zhU7QESf4spjt95uQ
+Created: 18 October 2026 14:52:27 Asia/Colombo
+Status: READY, production
+Deployment URL: https://liyanna-bj4pyzw44-dilepanaravinda-4530.vercel.app
+
+Completeness: all 48 files displayed in the deployment Source tree recovered.
+45 files match Vercel source SHA-1 identifiers exactly.
+Three files under src/features/documents (editor.tsx, list.tsx, preview.tsx) were recovered through the authenticated source viewer. The connector hid their source IDs, so independent source hash comparison was unavailable for those three. Their complete browser text is preserved; the viewer normalizes the final newline.
+SHA-256 checksums and file sizes for every recovered file are in manifest.json.
+All application source imports resolve. next-env.d.ts also references two .next/types files, which are generated during a Next.js build and were not included in the deployment source.
+
+Project files are in project/. No source code logic was changed.
+The browser omits a final newline in text exports; it was restored for known files only when needed to match Vercel's source hash. Binary assets were downloaded from the production domain and matched against the selected deployment's source hashes.
+
+Scope: complete available deployment source, not a full development repository or backend backup. Git history, environment secrets, database contents and files never uploaded to this deployment cannot be recovered from this source tree. Test scripts exist in package.json, but test files were not present in the deployment tree. No dependency install, application build or runtime test was performed.
+
+The live deployment and project settings were not modified.

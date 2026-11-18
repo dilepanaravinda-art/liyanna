@@ -1,0 +1,12 @@
+import { test } from 'node:test';
+import { strict as assert } from 'node:assert';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { inspectWorkerContract } from './verify-worker-contract.mjs';
+const root = resolve(import.meta.dirname, '..');
+const sql = readFileSync(resolve(root, '../database/migrations/20261118100300_vig_worker_operations.sql'), 'utf8');
+const repository = readFileSync(resolve(root, 'src/integrations/vig/postgres-repository.mjs'), 'utf8');
+test('worker SQL and repository contracts match', () => assert.equal(inspectWorkerContract({ sql, repository }).ok, true));
+test('missing private SQL function fails validation', () => assert.equal(inspectWorkerContract({ sql: sql.replace('CREATE OR REPLACE FUNCTION liyanna_integrations.claim_events', 'CREATE OR REPLACE FUNCTION other.claim_events'), repository }).ok, false));
+test('browser-role execute grants fail validation', () => assert.equal(inspectWorkerContract({ sql: sql + '\nGRANT EXECUTE ON FUNCTION liyanna_integrations.claim_events(uuid,integer) TO authenticated;', repository }).ok, false));
+test('repository signature drift fails validation', () => assert.equal(inspectWorkerContract({ sql, repository: repository.replace('claim_events($1::uuid,$2::integer)', 'claim_events($1::text,$2::integer)') }).ok, false));
