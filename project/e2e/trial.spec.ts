@@ -25,7 +25,7 @@ test("sign in, setup, save/reopen, download PDF and sign out", async ({ page }) 
    await page.getByLabel("Description 1", {exact:true}).fill("Service for trial customer");
    await page.getByLabel("Rate 1", {exact:true}).fill("125.50");
    await page.getByRole("button",{name:"Save draft",exact:true}).click();
-   await expect(page.getByText("Saved on this device", {exact:true})).toBeVisible();
+   await expect(page.getByRole("main").getByText("Saved on this device", {exact:true})).toBeVisible();
    const downloading = page.waitForEvent("download");
    await page.getByRole("button",{name:"Download PDF",exact:true}).click();
    const download = await downloading;
@@ -36,6 +36,6 @@ test("sign in, setup, save/reopen, download PDF and sign out", async ({ page }) 
  }
  await page.reload();
  await expect(page.getByText("Trial customer", {exact:true})).toHaveCount(2);
- await page.getByRole("button",{name:"Sign out",exact:true}).click();
+ await page.getByRole("button",{name:"Sign out",exact:true}).first().click();
  await expect(page.getByRole("heading",{name:"Sign in to Liyanna"})).toBeVisible();
 });
