@@ -1,10 +1,21 @@
-# LIYANNA remaining release work
+# LIYANNA next release plan
 
-The source publication, full compilation and preview deployment are completed. See RELEASE-STATUS.md for evidence. Do not repeat the previous archive-only release loop.
+SaaS preview: https://liyanna-preview.vercel.app
+Source review: https://github.com/dilepanaravinda-art/liyanna/pull/1
 
-1. Resolve the Supabase active-project limit through an owner decision: upgrade the relevant plan, or explicitly select an active project to pause. Resume existing Liyanna project `yfbbwehvisofdkjtzacz` afterward.
-2. Inspect the live schema and migration history before applying any SQL. Verify authentication and account-scoped access, then test invoice/quotation save, numbering, PDF output, backup and cloud synchronization with authorized test data.
-3. Validate additive database changes in staging and verify the real FINBASE contract and credential storage before enabling any integration worker.
-4. Promote a verified application release only after the remaining runtime checks and release approval.
+## Verified foundation
+- Full application compilation, TypeScript and release checks pass.
+- Live Supabase is active. Auth health and database connectivity pass.
+- Real PostgreSQL tests cover business creation, quotation/invoice persistence, stale updates, backup authorization, staff isolation, outsider RLS and revoked memberships. Fixtures are rolled back.
+- PDF tests generate real multipage invoice and quotation files with the application template and verify PDF structure; the separate multilingual probe loads bundled English, Sinhala and Tamil fonts. These tests do not establish browser shaping or visual accuracy.
 
-The verified preview is https://liyanna-preview.vercel.app. Existing Vercel preview protection applies. No production migration, project pausing or paid-plan change is part of the source recovery.
+## Next milestone: signed-in browser acceptance
+Use a dedicated test account to verify login, recovery, business setup, customer creation, quotation save/reopen, invoice save/reopen, and cloud refresh from a second browser context. Verify downloaded PDFs visually in English, Sinhala and Tamil, including long notes and multipage documents. Record failures and fix them before inviting trial users. Existing account credentials are not included in this source.
+
+## Then: controlled customer trial
+Confirm account onboarding and owner/staff access from the UI. Verify backups and restore from the UI and agree the release version for the first selected businesses. Promote only the tested application after acceptance.
+
+## Separate integration milestone
+Inspect live migration history and test additive commercial/integration migrations in isolated staging. Confirm the actual FINBASE endpoint, versioned contract and server-side credentials. Run one controlled invoice synchronization with duplicate/retry checks before enabling the scheduled worker.
+
+The current preview serves the verified application runtime. The latest source also contains the added database/PDF regression tests and release documentation. FINBASE synchronization remains unverified.
