@@ -22,6 +22,14 @@ These database tests do not prove password login, browser interaction, PDF outpu
 
 The latest source passed a fresh locked dependency install, TypeScript, release preflight, 142 Node tests and 65 Vitest tests (207 total), the full Next.js production build, and production runtime smoke tests. The three new PDF tests render real multipage invoice and quotation documents using the application template and exercise bundled English/Sinhala/Tamil fonts through the PDF probe. They validate PDF structure and pagination, not browser shaping or visual appearance. No application runtime behavior changed in this follow-up; the preview continues to serve the previously verified runtime.
 
+## Browser acceptance update
+
+GitHub Actions browser run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44352142203 passed against application/test commit b8a6cb55b3080517dc490956d90639c5f28e2c82. Chromium verified the sign-in UI, business setup, invoice and quote save, real PDF download structure, record persistence after page reload, and sign-out. Authentication responses were synthetic; this does not establish actual Supabase password login or recovery, cross-browser cloud sync, or PDF visual correctness in Sinhala/Tamil. The local browser process was restricted; the same test passed on GitHub's Linux runner.
+
+Controlled-trial steps are documented in docs/TRIAL-AND-INTEGRATION-ACCEPTANCE.md. No trial invitations have been sent. The owner currently provisions accounts through Supabase; there is no SaaS owner admin dashboard in LIYANNA.
+
+FINBASE source review identified an adapter implementation gap, not only missing configuration. Its integration UI explicitly marks LIYANNA as Adapter required and its gateway as not live. See docs/FINBASE-COMPATIBILITY-REVIEW.md. Live synchronization remains incomplete.
+
 ## Still unverified
 
 - Actual password sign-in and account recovery through the deployed browser app.
