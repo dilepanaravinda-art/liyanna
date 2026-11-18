@@ -10,15 +10,17 @@ Both environments passed locked dependency installation, source preflight, TypeS
 
 The compilation failure in the lifecycle guard was fixed without widening its public overloads. Node and Vitest suites now have distinct runners, and pnpm is pinned to the version used in CI.
 
-## Current blocking decision
+## Live database verification
 
-The existing Liyanna Supabase project `yfbbwehvisofdkjtzacz` reports INACTIVE. Its resume request was rejected due to the account's two-active-free-project limit. The active projects are `investara-production` and `vantoryx-webstudio`.
+The owner authorized pausing `investara-production`. It is now INACTIVE, and Liyanna project `yfbbwehvisofdkjtzacz` is ACTIVE_HEALTHY. The database connectivity query and Auth health endpoint passed (HTTP 200).
 
-An owner must choose whether to upgrade the relevant Supabase plan or pause an explicitly selected active project before LIYANNA can resume. Pausing another project interrupts that project's backend. No other project was modified and no plan was upgraded.
+`database/tests/cloud-workspace-rollback.sql` was executed successfully against the live PostgreSQL database using the authenticated role and synthetic JWT claims. It verified business creation, quotation and invoice persistence/reload, stale revision rejection, owner backup, staff document isolation, blocked staff overwrites, outsider RLS and workspace access denial, and member revocation. All fixtures were rolled back; a separate query confirmed zero remaining test users and businesses. No customer data or schema was changed.
+
+These database tests do not prove password login, browser interaction, PDF output or network synchronization through the frontend. Health advisors returned no findings. The security advisor reports leaked-password protection disabled; see https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection.
 
 ## Still unverified
 
-- Live authentication and database schema compatibility, because the database is paused.
+- Actual password sign-in and account recovery through the deployed browser app.
 - Signed-in invoice/quotation workflows, browser PDF output and cloud synchronization.
 - Execution of additive migrations against an isolated staging database.
 - Live FINBASE contract, credentials, synchronization and scheduled worker activation.
