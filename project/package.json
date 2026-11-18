@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build --webpack",
-    "test": "vitest run",
+    "test": "pnpm test:node && vitest run",
     "typecheck": "tsc --noEmit",
     "verify:release": "node scripts/verify-release.mjs && node scripts/verify-migrations.mjs && node scripts/verify-imports.mjs && node scripts/verify-secrets.mjs && node scripts/verify-ci.mjs && node scripts/verify-archive-layout.mjs && node scripts/verify-lockfile.mjs && node scripts/verify-worker-contract.mjs",
     "e2e": "playwright test",
     "verify:archive": "node scripts/verify-archive-layout.mjs",
     "smoke:production": "node scripts/smoke-production.mjs",
-    "smoke:deployment": "node scripts/smoke-deployment.mjs"
+    "smoke:deployment": "node scripts/smoke-deployment.mjs",
+    "test:node": "node --test scripts/*.test.mjs src/integrations/vig/*.test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0",
@@ -36,5 +37,6 @@
     "typescript": "7.0.2",
     "vitest": "5.0.5"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@10.28.0"
 }
