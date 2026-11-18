@@ -38,3 +38,11 @@ FINBASE source review identified an adapter implementation gap, not only missing
 - Live FINBASE contract, credentials, synchronization and scheduled worker activation.
 
 `/api/ready` confirms public configuration only; it does not prove Supabase availability. The worker remains disabled and unauthenticated requests return 401. The preview retains existing deployment protection. Production traffic has not been promoted.
+
+## Extended browser and live-account checks
+
+Browser run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44354270120 passed all four scenarios on 18 November 2026: failed-login error/password clearing, generic recovery confirmation, expired-link rejection, and the trial journey including invoice and quotation PDF downloads in English/Sinhala/Tamil. Auth responses were synthetic. PDF headers and nonempty output were checked; visual accuracy was not approved.
+
+Added project/scripts/verify-live-account.mjs for two real sessions and read-only business/workspace comparison. Syntax validation passed; live execution has not run because dedicated test credentials were not supplied. It neither edits records nor sends email. See docs/LIVE-ACCOUNT-AND-PREVIEW-ACCESS.md.
+
+A fresh browser redirected the preview to Vercel login. The current URL therefore requires Vercel access and must not be advertised as an anonymously accessible customer SaaS. No protection settings were changed. Customer onboarding remains manual and the trial has not started. FINBASE receiving-adapter work remains open. This update does not change the deployed application runtime.
