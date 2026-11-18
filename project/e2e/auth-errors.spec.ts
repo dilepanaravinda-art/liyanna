@@ -8,7 +8,7 @@ test("failed login shows the error and clears the password", async ({ page }) =>
  await page.getByLabel("Email",{exact:true}).fill("trial@example.invalid");
  await page.getByLabel("Password",{exact:true}).fill("incorrect-test-password");
  await page.getByRole("button",{name:"Sign in",exact:true}).click();
- await expect(page.getByRole("alert")).toContainText("Invalid login credentials");
+ await expect(page.getByRole("alert").filter({hasText:"Invalid login credentials"})).toContainText("Invalid login credentials");
  await expect(page.getByLabel("Password",{exact:true})).toHaveValue("");
  await expect(page.getByRole("heading",{name:"Sign in to Liyanna"})).toBeVisible();
 });
