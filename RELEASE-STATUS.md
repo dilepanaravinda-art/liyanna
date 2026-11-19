@@ -100,3 +100,14 @@ Four component scenarios cover disabled access, consent-controlled submission, p
 The source kit now includes components/LiyannaPreview.tsx, the UI tests and INTEGRATE-UI.md. The authoritative complete FINBASE changes remain draft PR https://github.com/dilepanaravinda-art/finbase/pull/1. FINBASE production/main and LIYANNA's existing protected runtime were not promoted or changed by this UI follow-up.
 
 Still not implemented: persistent source-business bindings, stored staged imports, issuance approval, durable posting idempotency and automatic synchronization. Next acceptance is a dedicated-account manual file review, followed by those stored/approval-controlled import stages.
+
+
+## 19 November 2026 — bounded review files and source checklist
+
+Application commit 76eee76f6b518b763aac7814ff4154c9f021e55b adds the owner-only pre-export checklist and manual selection of bounded invoice files. Each compact JSON file contains at most 100 invoices and 60,000 UTF-8 bytes. Invoice IDs/revisions and exact totals are preserved; quantities/rates are normalized for the strict receiver. Duplicate IDs/trimmed numbers and oversized individual invoices block the export. No invoices are silently discarded; quotations remain excluded.
+
+The checklist reports missing/long customer names, missing due dates, tax mapping requirements, non-positive amounts, currency precision concerns and mandatory issuance approval. Destination-company matching and account mapping still occur in FINBASE's separate review screen. This update does not persist mappings, stage imports, post financial records, or enable synchronization.
+
+GitHub validation run 44561802869 passed release checks, TypeScript, 226 tests (142 Node + 84 Vitest), production build and runtime smoke checks. Browser run 44561802941 passed all five Chromium scenarios including source checklist display and downloaded snapshot contents. Authentication is simulated in these browser tests.
+
+Vercel deployment dpl_EbRmgUf8zbforxgJ6TGmMoZF8uvn is READY and assigned to https://liyanna-preview.vercel.app. The aliased health endpoint returned HTTP 200. Existing preview protection remains in place. Real-account acceptance and customer launch remain outstanding. See docs/NEXT-PLAN.md for the four remaining milestones.
