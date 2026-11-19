@@ -54,3 +54,15 @@ Cloud adoption previously saved revision metadata before local workspace persist
 Application commit 721aa0144ebf5912d5b4c5cc286b93de2bd94596 passed 142 Node tests and 70 Vitest tests (212), TypeScript, release preflight, Next.js production build and production smoke tests in GitHub run 44553296233. All four Chromium acceptance cases passed in run 44553296247 using synthetic authentication. Vercel deployment dpl_2wgPXudb396t7A7QSQMyU7wMDajE is READY and assigned to https://liyanna-preview.vercel.app.
 
 This is a protected preview; Vercel sign-in can still be required. Live account recovery, actual cross-browser cloud edits and FINBASE receiving-adapter implementation remain open. No business data or database schema was modified in this update.
+
+## 19 November 2026 — onboarding and shared-business follow-up
+
+Deployed runtime commit aca943dc507d0bd4fb33fcef4c2842e04d6e75d3 adds a Getting Started panel to Overview in English, Sinhala and Tamil, linking to customer, document and backup/sharing workflows. CloudPanel now remounts when the business ID changes, clearing previous backup/member lists, passwords and consent selections. The shared-business selector has an explicit accessible label.
+
+Cloud incoming adoption now separates local storage persistence from UI publication. Records and revision metadata are saved before the new business is rendered, preserving the previous storage-failure protection while allowing shared-business initialization to load its saved settings.
+
+All 212 application tests, TypeScript, release preflight, production build and runtime smoke passed in GitHub run 44555095978. All five Chromium tests passed in run 44555096121. The new scenario uses independent browser contexts and a shared simulated provider to exchange documents in both directions and verify onboarding navigation and business-switch state reset. This is frontend integration verification, not live Supabase authentication or network synchronization verification.
+
+Vercel deployment dpl_2Tyn4j4SR3ubxBvjPztj2aQLAqRz is READY and assigned to https://liyanna-preview.vercel.app. Preview protection remains enabled. No customer data or schema was modified. FINBASE's reviewed current API still has owner registry/activity endpoints, with no LIYANNA receiving adapter identified.
+
+Next: dedicated-account live login/recovery and cross-browser cloud-edit acceptance; owner selection of customer-facing preview access; selected-business trial; FINBASE receiving-adapter development and controlled staging synchronization.
