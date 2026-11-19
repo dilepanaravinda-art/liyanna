@@ -46,6 +46,7 @@ import { getAccountFlag } from "../storage/account";
 import { getCloudWorkspace } from "../cloud/sync";
 import type { SyncSettings } from "../cloud/use-sync";
 import { useCloudSync } from "../cloud/use-sync";
+import { GettingStarted } from "./getting-started";
 import { prepareDocumentSave } from "../domain/document-save";
 export default function Liyanna({
   user,
@@ -409,7 +410,7 @@ export default function Liyanna({
             </button>
           </div>
         )}{" "}
-        {screen === "dashboard" && <CommercialDashboard data={data} />}
+        {screen === "dashboard" && <><GettingStarted data={data} onNavigate={navigate} /><CommercialDashboard data={data} /></>}
         {screen === "integrations" && sync.settings?.role !== "staff" && <IntegrationCenter isOwner={true} />}
         {screen === "documents" && (
           <DocumentList
