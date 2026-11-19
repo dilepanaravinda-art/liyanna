@@ -413,7 +413,7 @@ export default function Liyanna({
           </div>
         )}{" "}
         {screen === "dashboard" && <><GettingStarted data={data} onNavigate={navigate} /><CommercialDashboard data={data} /></>}
-        {screen === "integrations" && sync.settings?.role !== "staff" && <IntegrationCenter isOwner={true} />}
+        {screen === "integrations" && sync.settings?.role !== "staff" && <IntegrationCenter isOwner={true} data={data} />}
         {screen === "documents" && (
           <DocumentList
             data={data}
