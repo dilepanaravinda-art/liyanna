@@ -33,3 +33,11 @@ This is distinct from the draft invoiceIssuedV1 event contract.
 ## Remaining FINBASE work
 Implement receiving validation, tenant/company/customer mapping, service authorization, explicit issuance/approval semantics, durable event idempotency and reconciled payment responses.
 Then test one controlled staging invoice before enabling live synchronization.
+
+## Review-file preparation
+
+The owner interface prepares compact JSON review files capped at 100 invoices and 60,000 UTF-8 bytes each. Select each file in turn for manual download and FINBASE review. Exact invoice IDs and revisions are preserved; invoices are never truncated. Quotes are excluded. An oversized single invoice, duplicate ID/trimmed number, or incompatible field length blocks export with corrective guidance. Amount strings are canonicalized without changing monetary values.
+
+The checklist shows missing customer names/due dates, reversed due dates, long customer names, tax mapping needs, nonpositive totals, currency precision, and issuance approval. Source currency and business identity must still be checked against the target company. These are source checks, not receiver acceptance or posting approval. Downloaded files may contain private customer information.
+
+This batching applies to device-file export only. The existing owner-only cloud snapshot API retains its v1 contract. No connection, persistent mapping, import ledger, accounting write, or live authentication acceptance is added by this change.

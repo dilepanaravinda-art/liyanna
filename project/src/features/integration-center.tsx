@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import type { WorkspaceSnapshot } from "../domain/model";
-import { invoiceHandoff } from "../integrations/finbase/handoff";
+import { invoiceReviewBatches } from "../integrations/finbase/review-batches";
 import { downloadFile } from "../storage/backup";
 import { ProviderRegistry, finbaseManifest, crmManifest } from "../integrations/vig/registry";
 
@@ -15,6 +15,13 @@ export function IntegrationCenter({ isOwner, data }: { isOwner: boolean; data: W
   }, []);
   const [selected, setSelected] = useState(providers[0]?.providerId ?? "");
   const [handoffError,setHandoffError]=useState("");
+  const [batchIndex, setBatchIndex] = useState(0);
+  const review = useMemo(() => {
+    if (!isOwner) return {result: null, error: ""};
+    try { return {result: invoiceReviewBatches(data), error: ""}; }
+    catch (error) { return {result: null, error: error instanceof Error ? error.message : "Check workspace data before exporting."}; }
+  }, [data, isOwner]);
+  const selectedBatch = Math.min(batchIndex, Math.max(0, (review.result?.batches.length ?? 0) - 1));
   const provider = providers.find(p => p.providerId === selected);
   return <section aria-labelledby="integrations-title" style={{maxWidth:1000}}>
     <div className="heading"><div><h1 id="integrations-title">Integrations</h1><p>Explore compatible Vantoryx products and their available capabilities.</p></div></div>
@@ -36,14 +43,25 @@ export function IntegrationCenter({ isOwner, data }: { isOwner: boolean; data: W
     {provider?.providerId === "finbase" && isOwner && <section className="panel" aria-label="Invoice handoff" style={{marginTop:20}}>
       <h2>Invoice snapshot for review</h2>
       <p>Download this device’s invoice records and calculated totals as JSON. This is a read-only review file, not an issued-invoice event or permission to post transactions in FINBASE. Unsynced device edits may differ from the cloud.</p>
-      <p>{data.documents.filter(d=>d.type==="invoice").length} invoice record(s)</p>
-      <button type="button" className="btn" onClick={()=>{
-        try {
-          const snapshot=invoiceHandoff(data,"device");
-          downloadFile(JSON.stringify(snapshot,null,2),"liyanna-invoice-snapshot.json");
-          setHandoffError("");
-        } catch {setHandoffError("Unable to export these invoice records. Check the workspace data and try again.");}
-      }}>Download invoice snapshot</button>
+      {review.error && <p role="alert">{review.error}</p>}
+      {review.result && <>
+        <p>{review.result.invoiceCount} invoice record(s) · {review.result.batches.length} review file(s)</p>
+        <p>Source currencies: {review.result.currencies.join(", ") || "None"}. Confirm the target company and income mapping in FINBASE.</p>
+        <h3>Before importing</h3>
+        <p>These checks identify source data to review. Every invoice still needs issuance approval; this checklist does not authorize an import.</p>
+        <ul>{review.result.checks.filter(check => check.count > 0).map(check => <li key={check.label}>{check.label}: {check.count}</li>)}</ul>
+        {review.result.batches.length > 1 && <label>Review file <select aria-label="Review file" value={selectedBatch} onChange={event => setBatchIndex(Number(event.target.value))}>
+          {review.result.batches.map((batch, index) => <option key={index} value={index}>File {index + 1} of {review.result!.batches.length} · {batch.invoices.length} invoices</option>)}
+        </select></label>}
+        <button type="button" className="btn" disabled={!review.result.batches.length} onClick={() => {
+          try {
+            const snapshot = review.result!.batches[selectedBatch];
+            downloadFile(JSON.stringify(snapshot), review.result!.batches.length === 1 ? "liyanna-invoice-snapshot.json" : `liyanna-invoice-snapshot-${selectedBatch + 1}.json`);
+            setHandoffError("");
+          } catch {setHandoffError("Unable to download the review file. Try again.");}
+        }}>Download invoice snapshot</button>
+        {!review.result.invoiceCount && <p>Create an invoice to prepare a review file.</p>}
+      </>}
       {handoffError && <p role="alert">{handoffError}</p>}
     </section>}
     <p style={{fontSize:13,marginTop:18}}>Future products can join through reviewed, versioned manifests and server-side adapters. AI CEO is optional.</p>

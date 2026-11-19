@@ -42,6 +42,9 @@ test("sign in, setup, save/reopen, download PDF and sign out", async ({ page }) 
  await page.reload();
  await expect(page.getByText("Trial customer", {exact:true})).toHaveCount(2);
  await page.getByRole("navigation",{name:"Main navigation"}).getByRole("button",{name:"Integrations",exact:true}).click();
+ await expect(page.getByRole("heading",{name:"Before importing",exact:true})).toBeVisible();
+ await expect(page.getByText("Issuance approval needed: 1",{exact:true})).toBeVisible();
+ await expect(page.getByText("Due date missing: 1",{exact:true})).toBeVisible();
  const handoffDownload=page.waitForEvent("download");
  await page.getByRole("button",{name:"Download invoice snapshot",exact:true}).click();
  const handoffFile=await handoffDownload;
