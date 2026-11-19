@@ -24,3 +24,7 @@ Files:
 - route.patch
 
 File-review UI: see INTEGRATE-UI.md, components/LiyannaPreview.tsx and tests/e2e/liyanna-preview-ui.test.ts. This interface reviews files only and never imports or posts financial records.
+
+
+## Current receiver work
+This directory is the earlier snapshot preview reference kit, not the complete current FINBASE receiver. FINBASE main now contains durable staging and scoped service credentials; use its current source and docs. LIYANNA cloud event preparation is documented in docs/FINBASE-REVIEW-PREPARATIONS.md at the repository root. No live sender is enabled.

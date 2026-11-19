@@ -1,25 +1,25 @@
 # LIYANNA next development plan — 19 November 2026
 
-## Completed this iteration
+## Completed foundation
 
-Saved owner-only FINBASE review destination settings: source business scope, target company reference, currency, income mapping reference, explicit confirmation, optimistic revisions, revocation and immutable audit entries. The additive migration was tested against isolated PostgreSQL, applied to LIYANNA, and verified on the connected database with rolled-back synthetic fixtures. No credentials, transactions, or automatic connection grants are stored by this feature. Next.js was patched to 16.4.6.
+LIYANNA now saves owner-only draft destinations and immutable cloud invoice review preparations. Exact retries retain the original event identity and payload. The cloud recomputes amounts, validates matching customer/source/destination versions, blocks stale or conflicting changes and enforces owner-only access. Review files use FINBASE's existing draft staging shape. FINBASE independently now has durable staging and scoped service credentials; these are existing capabilities, not newly implemented in this LIYANNA iteration.
 
-## 1. Verify the destination against FINBASE
+## 1. Real-account sandbox acceptance
 
-Authenticate a dedicated owner account in each product. Verify actual FINBASE company membership, active revenue account and currency before marking any mapping as verified. Add mapping versions and revocation checks on the receiving side. The new LIYANNA settings are draft references only; saving them cannot establish FINBASE access.
+Use dedicated LIYANNA and FINBASE sandbox accounts. Save/sync one invoice and matching customer, declare the verified LIYANNA business ID as both source tenant and source business, confirm destination company membership/currency, then stage the downloaded event. Verify the receipt, exact retry and source/version conflicts. Capture actual password/cloud/PDF workflows too. Automated tests use synthetic Auth responses and database-role claims, not real account sign-in.
 
-## 2. Build staged imports with durable duplicate protection
+## 2. Connect the scoped server sender
 
-In the isolated FINBASE integration branch, store pending imports separately from financial records. Add payload digests and a durable uniqueness rule for source business/document/revision, approval state, rejection reason and concurrency protection. Reject changed payloads using the same source identity and preserve an audit history. Acceptance: retries and concurrent submissions create one staged record and zero posted transactions.
+Provision the one-hour FINBASE credential through its administrator UI into the sender's server secret configuration. Add a fixed HTTPS receiver allowlist, disabled-by-default sandbox delivery, stable payload retries, timeouts, redirect rejection, receipt persistence and credential rotation/revocation tests. No raw tokens belong in browser storage, chat, source control or logs. Do not enable production delivery merely because staging succeeds.
 
-## 3. Issuance approval and reconciliation
+## 3. Issuance approval and financial controls
 
-Define how a LIYANNA draft becomes an issued invoice. Capture owner approval against the exact revision and mappings, then validate tax/customer accounts. Only after these rules pass should a controlled financial posting path be developed. Test rollback, revocation, retries and reconciliation in isolated staging.
+Agree an actual issued-invoice lifecycle and proof tied to exact document/mapping revisions. Add verified customer, tax and income mappings, owner approval, duplicate prevention, reversal and reconciliation rules before financial posting. The draft invoiceIssuedV1 contract name and issuedOn field currently carry no proof of issuance. Preparation/staging remain review-only.
 
-## 4. Real-account acceptance and selected-customer trial
+## 4. Controlled customer trial
 
-Complete deployed password sign-in/recovery, cloud save/reload in two real browser sessions, owner/staff isolation, multilingual PDF inspection, and authenticated FINBASE review. Decide customer-facing preview access and complete onboarding before inviting selected businesses. Browser CI currently uses synthetic Auth and destination responses; live database tests use authenticated-role JWT claims rather than password sessions.
+Complete real-account recovery, two-session cloud editing, owner/staff isolation, visual multilingual PDF checks and end-to-end backup coverage of the new cloud records. Decide preview access, onboard named pilot businesses and record acceptance/support feedback before public launch.
 
 SaaS preview: https://liyanna-preview.vercel.app
-FINBASE review: https://finbase-liyanna-preview.vercel.app
-Source review: https://github.com/dilepanaravinda-art/liyanna/pull/1
+Current FINBASE source: https://github.com/dilepanaravinda-art/finbase
+LIYANNA source review: https://github.com/dilepanaravinda-art/liyanna/pull/1
