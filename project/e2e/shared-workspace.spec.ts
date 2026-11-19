@@ -37,6 +37,11 @@ test("two independent browsers exchange documents and reset cloud controls on wo
   await page.getByLabel("Password",{exact:true}).fill("synthetic-password");
   await page.getByRole("button",{name:"Sign in",exact:true}).click();
   await page.getByRole("button",{name:"Open Sync trial",exact:true}).click();
+  await page.getByRole("navigation",{name:"Main navigation"}).getByRole("button",{name:"Overview",exact:true}).click();
+  await expect(page.getByRole("region",{name:"Getting started",exact:true})).toBeVisible();
+  await page.getByRole("button",{name:"Choose backup and sharing",exact:true}).click();
+  await expect(page.getByRole("button",{name:"Sync now",exact:true})).toBeVisible();
+  await page.getByRole("navigation",{name:"Main navigation"}).getByRole("button",{name:"Documents",exact:true}).click();
   return page;
  }
  const firstContext=await browser.newContext(), secondContext=await browser.newContext();
