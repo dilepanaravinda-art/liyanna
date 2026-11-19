@@ -78,3 +78,15 @@ The envelope is explicitly read-only with postingAuthorized=false and documentSt
 Runtime commit 3424925be8343c26d1393bc702b78c557ba168e0 is deployed as dpl_HAsh6hv39Kr1a6p9QRDhras3X1kv at https://liyanna-preview.vercel.app. Preview protection remains enabled. See docs/INVOICE-HANDOFF-V1.md for the interface and limits.
 
 Next: verify the endpoint with a dedicated live owner account, implement FINBASE's receiving/mapping and service-authorization layer, agree issuance and idempotency semantics, then run controlled staging synchronization. Real login/recovery, public trial access and customer onboarding remain open.
+
+## 19 November 2026 — FINBASE receiver validation and mapping preview
+
+FINBASE draft PR https://github.com/dilepanaravinda-art/finbase/pull/1 implements POST /api/v1/integrations/liyanna/preview on branch feature/liyanna-receiver-preview-20261119 (commit 945ca10965e280b2b9900e2cad97603a40f45be3). It uses FINBASE's existing session/origin protections, company scope and sales.write permission, reads company currency and active income mapping, validates the LIYANNA snapshot and recomputes totals.
+
+The receiver rejects mismatched source-business IDs, duplicate documents and inconsistent amounts. It reports currency, customer, due-date, revenue/tax mapping and issuance review gaps. It stores no mapping/import and calls no sales or journal posting function. postingAuthorized remains false. Candidate identities are deterministic but do not constitute a durable idempotency ledger.
+
+All eight new receiver scenarios passed locally; FINBASE's full test/component/build CI passed in run 44557549396. Protected review deployment dpl_4psJJdCuukiVkaj14BdAZBby4S6k is READY at https://finbase-liyanna-preview.vercel.app and its homepage returned 200 through authenticated deployment access. The receiving POST has not been accepted with a real FINBASE account. FINBASE production/main were not modified or promoted.
+
+The receivers/finbase-preview source kit contains the receiver module, tests, route patch and application instructions. Apply through the draft PR, not by overwriting a newer FINBASE route. LIYANNA's existing protected SaaS runtime remains https://liyanna-preview.vercel.app, with its previously verified handoff exporter/API.
+
+Next: persist approved source-business/company bindings, implement issuance/approval-controlled staged imports with durable idempotency, verify both sides using dedicated live accounts, and run one controlled staging invoice before any posting or automatic synchronization. Customer trial access and live recovery remain outstanding.
