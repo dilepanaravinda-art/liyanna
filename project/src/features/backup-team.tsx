@@ -87,6 +87,7 @@ export function BackupTeam({
         </section>
         {cloudConfigured ? (
           <CloudPanel
+            key={data.business.id}
             user={user}
             data={data}
             t={t}
