@@ -146,6 +146,7 @@ export default function CloudPanel({
             <div style={{ marginTop: 22 }}>
               <Field label={t.switchWorkspace}>
                 <select
+                  aria-label={t.switchWorkspace}
                   defaultValue=""
                   onChange={(e) => {
                     const id = e.target.value;
