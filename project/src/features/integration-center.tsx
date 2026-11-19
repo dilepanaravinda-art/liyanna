@@ -1,9 +1,12 @@
 "use client";
 import { useMemo, useState } from "react";
+import type { WorkspaceSnapshot } from "../domain/model";
+import { invoiceHandoff } from "../integrations/finbase/handoff";
+import { downloadFile } from "../storage/backup";
 import { ProviderRegistry, finbaseManifest, crmManifest } from "../integrations/vig/registry";
 
 /** Discovery UI only. Never store grants or credentials in browser storage. */
-export function IntegrationCenter({ isOwner }: { isOwner: boolean }) {
+export function IntegrationCenter({ isOwner, data }: { isOwner: boolean; data: WorkspaceSnapshot }) {
   const providers = useMemo(() => {
     const registry = new ProviderRegistry();
     registry.register(finbaseManifest);
@@ -11,6 +14,7 @@ export function IntegrationCenter({ isOwner }: { isOwner: boolean }) {
     return registry.list();
   }, []);
   const [selected, setSelected] = useState(providers[0]?.providerId ?? "");
+  const [handoffError,setHandoffError]=useState("");
   const provider = providers.find(p => p.providerId === selected);
   return <section aria-labelledby="integrations-title" style={{maxWidth:1000}}>
     <div className="heading"><div><h1 id="integrations-title">Integrations</h1><p>Explore compatible Vantoryx products and their available capabilities.</p></div></div>
@@ -29,6 +33,19 @@ export function IntegrationCenter({ isOwner }: { isOwner: boolean }) {
       <ul style={{paddingLeft:20}}>{provider.capabilities.map(c => <li key={c.name} style={{marginBottom:14}}><strong>{c.name}</strong> ({c.direction}){c.requiresApproval?" · Approval required":""}<div style={{fontSize:13}}>{c.description}</div></li>)}</ul>
       <button type="button" disabled title="Server-side integration provisioning is not yet available" className="btn">Connect — coming soon</button>
     </div>}
+    {provider?.providerId === "finbase" && isOwner && <section className="panel" aria-label="Invoice handoff" style={{marginTop:20}}>
+      <h2>Invoice snapshot for review</h2>
+      <p>Download this device’s invoice records and calculated totals as JSON. This is a read-only review file, not an issued-invoice event or permission to post transactions in FINBASE. Unsynced device edits may differ from the cloud.</p>
+      <p>{data.documents.filter(d=>d.type==="invoice").length} invoice record(s)</p>
+      <button type="button" className="btn" onClick={()=>{
+        try {
+          const snapshot=invoiceHandoff(data,"device");
+          downloadFile(JSON.stringify(snapshot,null,2),"liyanna-invoice-snapshot.json");
+          setHandoffError("");
+        } catch {setHandoffError("Unable to export these invoice records. Check the workspace data and try again.");}
+      }}>Download invoice snapshot</button>
+      {handoffError && <p role="alert">{handoffError}</p>}
+    </section>}
     <p style={{fontSize:13,marginTop:18}}>Future products can join through reviewed, versioned manifests and server-side adapters. AI CEO is optional.</p>
   </section>;
 }
