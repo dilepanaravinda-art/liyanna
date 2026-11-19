@@ -17,6 +17,7 @@ export function useCloudSync(
   dirty: boolean,
   onIncoming: (s: WorkspaceSnapshot) => Promise<void>,
   userId: string,
+  onPersist: (s: WorkspaceSnapshot) => Promise<void>,
 ) {
   const [ready, setReady] = useState(false);
   const [settings, setSettings] = useState<SyncSettings | null>(null),
@@ -68,7 +69,7 @@ export function useCloudSync(
       const adopted = await persistCloudAdoption(
         value.snapshot,
         () => token === epoch.current,
-        latest.current.onIncoming,
+        onPersist,
         () => setAccountFlag(userId, key(value.snapshot.business.id), next),
       );
       if (!adopted) {
@@ -76,6 +77,8 @@ export function useCloudSync(
           await setAccountFlag(userId, key(value.snapshot.business.id), null);
         return;
       }
+      await latest.current.onIncoming(value.snapshot);
+      if (token !== epoch.current) return;
       latest.current.settings = next;
       setSettings(next);
       setConflict(null);
