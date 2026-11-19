@@ -1,4 +1,5 @@
 "use client";
+import { FinbaseReview } from "./finbase-review";
 import { FinbaseDestination } from "./finbase-destination";
 import { useMemo, useState } from "react";
 import type { WorkspaceSnapshot } from "../domain/model";
@@ -66,6 +67,7 @@ export function IntegrationCenter({ isOwner, data }: { isOwner: boolean; data: W
       {handoffError && <p role="alert">{handoffError}</p>}
     </section>}
     {provider?.providerId === "finbase" && isOwner && <FinbaseDestination key={data.business.id} businessId={data.business.id} currency={data.business.currency} />}
+    {provider?.providerId === "finbase" && isOwner && <FinbaseReview key={data.business.id} data={data} />}
     <p style={{fontSize:13,marginTop:18}}>Future products can join through reviewed, versioned manifests and server-side adapters. AI CEO is optional.</p>
   </section>;
 }
