@@ -6,15 +6,21 @@ Quotation and invoice SaaS with English, Sinhala and Tamil documents, account-sc
 
 - SaaS: https://liyanna-preview.vercel.app (Vercel access may be required).
 - FINBASE review interface: https://finbase-liyanna-preview.vercel.app.
-- Application commit: 76eee76f6b518b763aac7814ff4154c9f021e55b.
-- Validation: 226 application tests (142 Node + 84 Vitest), TypeScript, release checks, production build and runtime smoke checks passed in GitHub run 44561802869. All five Chromium acceptance scenarios passed in run 44561802941 with synthetic authentication.
+- Application commit: a7b531e94604247b0324968193ce578d6a22cd84.
+- Validation: 236 application tests (142 Node + 94 Vitest), TypeScript, release checks, production build and runtime smoke checks passed in GitHub run 44564328432. All five Chromium acceptance scenarios passed in run 44564328408 with synthetic authentication.
 - Supabase was resumed and database persistence/tenant checks passed previously. Actual password recovery, real-account cloud editing, and authenticated FINBASE acceptance are still pending.
+
+## Saved review destinations
+
+Owners can save a FINBASE company reference, currency and income mapping under Integrations > FINBASE. Cloud settings have explicit confirmation, server-side owner authorization, stale-version rejection, revocation and immutable audit entries. These remain unverified draft references, not an active FINBASE connection. The additive review-destination migration was applied and verified with rolled-back synthetic fixtures. Device workspace backups do not contain these separate cloud settings.
+
+Next.js is pinned to 16.4.6. See docs/FINBASE-DESTINATION-SETTINGS.md for the storage and authorization contract.
 
 ## Invoice review workflow
 
 Owners can open Integrations > FINBASE to view source-data gaps and download invoice snapshots. Large workspaces are split into compact review files capped at 100 invoices and 60,000 UTF-8 bytes. Select and download each file separately, then upload it to FINBASE's review screen. Duplicates and oversized individual invoices block export with an explanation.
 
-Snapshots explicitly carry postingAuthorized=false and unspecified issuance status. This workflow does not save imports, persist business mappings, create financial transactions, or enable automatic synchronization. Customer trials have not started.
+Snapshots explicitly carry postingAuthorized=false and unspecified issuance status. This workflow does not save imports, create financial transactions, or enable automatic synchronization. Customer trials have not started.
 
 ## Develop and validate
 

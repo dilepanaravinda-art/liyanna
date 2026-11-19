@@ -111,3 +111,16 @@ The checklist reports missing/long customer names, missing due dates, tax mappin
 GitHub validation run 44561802869 passed release checks, TypeScript, 226 tests (142 Node + 84 Vitest), production build and runtime smoke checks. Browser run 44561802941 passed all five Chromium scenarios including source checklist display and downloaded snapshot contents. Authentication is simulated in these browser tests.
 
 Vercel deployment dpl_EbRmgUf8zbforxgJ6TGmMoZF8uvn is READY and assigned to https://liyanna-preview.vercel.app. The aliased health endpoint returned HTTP 200. Existing preview protection remains in place. Real-account acceptance and customer launch remain outstanding. See docs/NEXT-PLAN.md for the four remaining milestones.
+
+
+## 19 November 2026 — owner-only saved review destinations
+
+Runtime commit a7b531e94604247b0324968193ce578d6a22cd84 adds cloud-persisted draft FINBASE destination settings: company reference/name, currency and income mapping. The owner must explicitly confirm each save. The PostgreSQL RPC rechecks actual ownership after locking the business row; direct client writes are denied. Server revisions prevent stale overwrites, revocation advances the revision, and successful changes append immutable owner-readable audit records. Frontend state is remounted for each user/business and ignores late async responses after unmount.
+
+Migration 20261119100000_finbase_review_destinations.sql was first tested with isolated PostgreSQL/PGlite owner, staff, outsider and anonymous roles. It was then applied as an additive LIYANNA migration independently of the optional worker/commercial migrations. The connected database passed database/tests/finbase-destination-rollback.sql: owner save/reload, stale rejection, direct write denial, staff/outsider isolation, revoke and audit. All synthetic fixtures were rolled back and a follow-up query returned zero remaining test users.
+
+Next.js was patched from 16.4.2 to 16.4.6 after a security-version warning during the local build. The final locked dependency install, release checks, TypeScript, 236 application tests (142 Node + 94 Vitest), production build and runtime smoke checks passed in GitHub run 44564328432. All five Chromium scenarios passed in run 44564328408, including destination confirmation, save/reload, stale-revision feedback and revocation. Browser Auth/RPC responses are synthetic; this is not a real-password session acceptance result.
+
+Vercel deployment dpl_5MR6nz1uFrjEYaE6hXbnpYTGozHW is READY and assigned to https://liyanna-preview.vercel.app. The aliased health and public-configuration readiness endpoints returned HTTP 200. Existing Vercel protection remains in place.
+
+Saved references are unverified draft settings. They do not authorize a FINBASE connection, validate FINBASE membership/accounts, persist staged imports, post financial transactions, or activate automatic synchronization. Destination settings/audit are separate cloud records and are not part of device workspace JSON backups. Real-account acceptance and selected-customer launch remain outstanding. See docs/NEXT-PLAN.md.
