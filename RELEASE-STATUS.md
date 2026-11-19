@@ -90,3 +90,13 @@ All eight new receiver scenarios passed locally; FINBASE's full test/component/b
 The receivers/finbase-preview source kit contains the receiver module, tests, route patch and application instructions. Apply through the draft PR, not by overwriting a newer FINBASE route. LIYANNA's existing protected SaaS runtime remains https://liyanna-preview.vercel.app, with its previously verified handoff exporter/API.
 
 Next: persist approved source-business/company bindings, implement issuance/approval-controlled staged imports with durable idempotency, verify both sides using dedicated live accounts, and run one controlled staging invoice before any posting or automatic synchronization. Customer trial access and live recovery remain outstanding.
+
+## 19 November 2026 — FINBASE invoice file-review interface
+
+FINBASE branch commit fbc5df0286001a7724ed5efde94d302ac7d46e74 adds a file-review panel to Integrations. It accepts LIYANNA snapshots under 60 KB, shows the source business identity, offers the selected company's existing income mappings, and sends the snapshot to the review-only receiver after explicit consent. Results explain validation requirements in plain language. Access loss clears file/result state and invalidates late responses; scope changes retain the existing parent remount.
+
+Four component scenarios cover disabled access, consent-controlled submission, pre-transmission size checks, and clearing data/late responses after access loss. Full FINBASE tests, component tests and Next.js build passed in CI run 44559636160. Protected review deployment dpl_CjQVbJHiBphRSQBQbHLZNdnz7He1 is READY at https://finbase-liyanna-preview.vercel.app; homepage returned 200 through authorized deployment access. Real-account file submission remains pending.
+
+The source kit now includes components/LiyannaPreview.tsx, the UI tests and INTEGRATE-UI.md. The authoritative complete FINBASE changes remain draft PR https://github.com/dilepanaravinda-art/finbase/pull/1. FINBASE production/main and LIYANNA's existing protected runtime were not promoted or changed by this UI follow-up.
+
+Still not implemented: persistent source-business bindings, stored staged imports, issuance approval, durable posting idempotency and automatic synchronization. Next acceptance is a dedicated-account manual file review, followed by those stored/approval-controlled import stages.
