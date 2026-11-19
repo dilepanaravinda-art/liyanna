@@ -68,7 +68,7 @@ test("sign in, setup, save/reopen, download PDF and sign out", async ({ page }) 
  // Simulate another session saving newer settings; stale writes must fail visibly.
  destination={...destination,revision:2};
  await confirmation.check();await saveDestination.click();
- await expect(page.getByRole('alert')).toHaveText('These settings changed in another session. Reload before saving again.');
+ await expect(page.getByRole('region',{name:'FINBASE review destination',exact:true}).getByRole('alert')).toHaveText('These settings changed in another session. Reload before saving again.');
  await page.getByRole('button',{name:'Reload destination settings',exact:true}).click();
  await expect(page.getByText('Draft settings saved · Version 2',{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Revoke saved destination',exact:true}).click();
