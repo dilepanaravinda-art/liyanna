@@ -46,3 +46,11 @@ Browser run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44354270
 Added project/scripts/verify-live-account.mjs for two real sessions and read-only business/workspace comparison. Syntax validation passed; live execution has not run because dedicated test credentials were not supplied. It neither edits records nor sends email. See docs/LIVE-ACCOUNT-AND-PREVIEW-ACCESS.md.
 
 A fresh browser redirected the preview to Vercel login. The current URL therefore requires Vercel access and must not be advertised as an anonymously accessible customer SaaS. No protection settings were changed. Customer onboarding remains manual and the trial has not started. FINBASE receiving-adapter work remains open. This update does not change the deployed application runtime.
+
+## 19 November 2026 — incoming synchronization persistence fix
+
+Cloud adoption previously saved revision metadata before local workspace persistence. A failed IndexedDB save could therefore leave metadata ahead of device records. The new order persists incoming records first, then advances revision metadata only if the operation is still current. Five regression cases cover ordering, failed local storage, cancellation, and metadata failure.
+
+Application commit 721aa0144ebf5912d5b4c5cc286b93de2bd94596 passed 142 Node tests and 70 Vitest tests (212), TypeScript, release preflight, Next.js production build and production smoke tests in GitHub run 44553296233. All four Chromium acceptance cases passed in run 44553296247 using synthetic authentication. Vercel deployment dpl_2wgPXudb396t7A7QSQMyU7wMDajE is READY and assigned to https://liyanna-preview.vercel.app.
+
+This is a protected preview; Vercel sign-in can still be required. Live account recovery, actual cross-browser cloud edits and FINBASE receiving-adapter implementation remain open. No business data or database schema was modified in this update.
