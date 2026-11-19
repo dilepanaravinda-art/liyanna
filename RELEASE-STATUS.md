@@ -66,3 +66,15 @@ All 212 application tests, TypeScript, release preflight, production build and r
 Vercel deployment dpl_2Tyn4j4SR3ubxBvjPztj2aQLAqRz is READY and assigned to https://liyanna-preview.vercel.app. Preview protection remains enabled. No customer data or schema was modified. FINBASE's reviewed current API still has owner registry/activity endpoints, with no LIYANNA receiving adapter identified.
 
 Next: dedicated-account live login/recovery and cross-browser cloud-edit acceptance; owner selection of customer-facing preview access; selected-business trial; FINBASE receiving-adapter development and controlled staging synchronization.
+
+## 19 November 2026 — read-only invoice handoff
+
+Added a device invoice snapshot download under Integrations > FINBASE and an authenticated owner-only GET /api/integrations/finbase/invoices?businessId=<UUID>. The API verifies the user and reads through the existing user-scoped workspace RPC. It checks owner role/scope and matching business ID, disables caching and exposes no service-role credential. Exported decimal totals come from the same calculator used by documents; quotations are excluded.
+
+The envelope is explicitly read-only with postingAuthorized=false and documentStatus=unspecified. Documents may include drafts. This is a review snapshot, not an invoice-issued event, verified FINBASE import or accounting posting authorization. No automatic delivery or receiving adapter was activated.
+
+219 application tests passed, including seven handoff/authorization cases. All five Chromium scenarios passed in run 44556387931; the trial scenario downloaded and parsed the handoff file. TypeScript, release preflight, full Next.js build and production smoke steps passed in run 44556387907. Browser identity/cloud responses remain simulated; live owner-account export still needs acceptance.
+
+Runtime commit 3424925be8343c26d1393bc702b78c557ba168e0 is deployed as dpl_HAsh6hv39Kr1a6p9QRDhras3X1kv at https://liyanna-preview.vercel.app. Preview protection remains enabled. See docs/INVOICE-HANDOFF-V1.md for the interface and limits.
+
+Next: verify the endpoint with a dedicated live owner account, implement FINBASE's receiving/mapping and service-authorization layer, agree issuance and idempotency semantics, then run controlled staging synchronization. Real login/recovery, public trial access and customer onboarding remain open.
