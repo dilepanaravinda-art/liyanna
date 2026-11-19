@@ -41,6 +41,16 @@ test("sign in, setup, save/reopen, download PDF and sign out", async ({ page }) 
  }
  await page.reload();
  await expect(page.getByText("Trial customer", {exact:true})).toHaveCount(2);
+ await page.getByRole("navigation",{name:"Main navigation"}).getByRole("button",{name:"Integrations",exact:true}).click();
+ const handoffDownload=page.waitForEvent("download");
+ await page.getByRole("button",{name:"Download invoice snapshot",exact:true}).click();
+ const handoffFile=await handoffDownload;
+ const snapshot=JSON.parse(await readFile((await handoffFile.path())!,"utf8"));
+ expect(snapshot.schemaVersion).toBe("liyanna.invoice-snapshot.v1");
+ expect(snapshot.postingAuthorized).toBe(false);
+ expect(snapshot.origin).toBe("device");
+ expect(snapshot.invoices).toHaveLength(1);
+ expect(snapshot.invoices[0].totals.total).toBe("125.50");
  await page.getByRole("button",{name:"Sign out",exact:true}).first().click();
  await expect(page.getByRole("heading",{name:"Sign in to Liyanna"})).toBeVisible();
 });
