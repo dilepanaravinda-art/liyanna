@@ -47,3 +47,17 @@ export async function finaliseSharedDownload(
     );
   return { document, remote };
 }
+
+/** Never advance cloud metadata until incoming workspace persistence succeeds. */
+export async function persistCloudAdoption(
+  snapshot: WorkspaceSnapshot,
+  isCurrent: () => boolean,
+  saveSnapshot: (snapshot: WorkspaceSnapshot) => Promise<void>,
+  saveMetadata: () => Promise<void>,
+): Promise<boolean> {
+  if (!isCurrent()) return false;
+  await saveSnapshot(snapshot);
+  if (!isCurrent()) return false;
+  await saveMetadata();
+  return isCurrent();
+}
