@@ -123,11 +123,13 @@ export default function Liyanna({
     return snapshot;
   }, []);
   const acceptCloud = useCallback(async (snapshot: WorkspaceSnapshot) => {
-    await repository.save(snapshot, dataRef.current?.updatedAt ?? null);
     dataRef.current = snapshot;
     setData(snapshot);
   }, []);
-  const sync = useCloudSync(data, dirty, acceptCloud, user.id);
+  const persistCloud = useCallback(async (snapshot: WorkspaceSnapshot) => {
+    await repository.save(snapshot, dataRef.current?.updatedAt ?? null);
+  }, []);
+  const sync = useCloudSync(data, dirty, acceptCloud, user.id, persistCloud);
   const dirtyChange = useCallback((value: boolean) => setDirty(value), []);
   const leave = () =>
     !dirty || window.confirm(t.unsaved + " — " + t.back + "?");
