@@ -2,7 +2,7 @@
 
 Authoritative review: https://github.com/dilepanaravinda-art/finbase/pull/1
 Branch: feature/liyanna-receiver-preview-20261119
-Receiver commit: 945ca10965e280b2b9900e2cad97603a40f45be3
+Receiver API and file-review commit: fbc5df0286001a7724ed5efde94d302ac7d46e74
 
 This kit accompanies LIYANNA's full source. The nested src/ and tests/ paths belong in FINBASE, not in LIYANNA/project.
 Use the FINBASE draft PR for integration. route.patch records the narrowly scoped insertion against the reviewed base; do not replace a newer FINBASE API route wholesale.
@@ -22,3 +22,5 @@ Files:
 - src/modules/integrations/liyanna-preview.ts
 - tests/unit/liyanna-preview.test.ts
 - route.patch
+
+File-review UI: see INTEGRATE-UI.md, components/LiyannaPreview.tsx and tests/e2e/liyanna-preview-ui.test.ts. This interface reviews files only and never imports or posts financial records.
