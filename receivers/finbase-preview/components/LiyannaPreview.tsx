@@ -1,6 +1,18 @@
 'use client';
 import React,{useEffect,useRef,useState} from 'react';
 type Result={mode:'review-only';postingAuthorized:false;mappingPersisted:false;documentCount:number;documents:Array<{documentId:string;documentNumber:string;sourceCurrency:string;companyCurrency:string;amount:string;issues:string[]}>};
+const reviewLabels:Record<string,string>={
+ ISSUANCE_REVIEW_REQUIRED:'Confirm invoice issuance and approval',
+ CURRENCY_MAPPING_REQUIRED:'Source and company currencies differ',
+ CURRENCY_PRECISION_REVIEW_REQUIRED:'Review currency decimal precision',
+ REVENUE_MAPPING_REQUIRED:'Configure an income account mapping',
+ CUSTOMER_REQUIRED:'Add a customer name',
+ CUSTOMER_NAME_REVIEW_REQUIRED:'Review the customer name length',
+ DUE_DATE_REQUIRED:'Add an invoice due date',
+ INVALID_DUE_DATE:'Due date precedes the invoice date',
+ TAX_ACCOUNT_MAPPING_REQUIRED:'Confirm the tax account mapping',
+ POSITIVE_AMOUNT_REQUIRED:'Invoice total must be greater than zero',
+};
 export default function LiyannaPreview({api,preview=false,mappings=[]}:{api:(path:string,body?:unknown)=>Promise<unknown>;preview?:boolean;mappings?:Array<{category:string}>}) {
  const [snapshot,setSnapshot]=useState<Record<string,unknown>|null>(null),[businessId,setBusinessId]=useState(''),[category,setCategory]=useState(''),[fileName,setFileName]=useState(''),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[result,setResult]=useState<Result|null>(null);
  const revision=useRef(0);
@@ -46,6 +58,6 @@ export default function LiyannaPreview({api,preview=false,mappings=[]}:{api:(pat
    <button className="primary" aria-label="Preview invoice mapping" disabled={preview||busy||!snapshot||!category||!consent}>{busy?'Reviewing…':'Preview mapping'}</button>
   </form>
   {error&&<p role="alert">{error}</p>}
-  {result&&<div role="status"><h3>{result.documentCount} record(s) reviewed — not imported</h3><div className="table-wrap"><table><thead><tr><th>Invoice</th><th>Amount</th><th>Company currency</th><th>Review requirements</th></tr></thead><tbody>{result.documents.map(d=><tr key={d.documentId}><td>{d.documentNumber}</td><td>{d.sourceCurrency} {d.amount}</td><td>{d.companyCurrency}</td><td>{d.issues.join(', ')||'No validation gaps reported; posting remains disabled.'}</td></tr>)}</tbody></table></div><p>Draft/issuance review and a separate approved import workflow are still required. Nothing has been posted.</p></div>}
+  {result&&<div role="status"><h3>{result.documentCount} record(s) reviewed — not imported</h3><div className="table-wrap"><table><thead><tr><th>Invoice</th><th>Amount</th><th>Company currency</th><th>Review requirements</th></tr></thead><tbody>{result.documents.map(d=><tr key={d.documentId}><td>{d.documentNumber}</td><td>{d.sourceCurrency} {d.amount}</td><td>{d.companyCurrency}</td><td>{d.issues.map(issue=>reviewLabels[issue]??'Additional review required').join('; ')||'No validation gaps reported; posting remains disabled.'}</td></tr>)}</tbody></table></div><p>Draft/issuance review and a separate approved import workflow are still required. Nothing has been posted.</p></div>}
  </section>;
 }
