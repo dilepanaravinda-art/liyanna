@@ -36,8 +36,8 @@ export function FinbaseReview({data}:{data:WorkspaceSnapshot}){
   <p>Use this business ID for both source tenant and source business when declaring the FINBASE sandbox mapping: <code style={{overflowWrap:'anywhere'}}>{data.business.id}</code></p>
   {destination&&<p>Review destination: {destination.config?.companyLabel||'Not saved'} · Version {destination.revision} · {destination.status}</p>}
   <fieldset disabled={busy||destination?.status!=='draft'} style={{display:'grid',gap:12,border:0,padding:0}}>
-   <label>Invoice for cloud review<select value={documentId} onChange={e=>{setDocumentId(e.target.value);setCustomerId('');setConfirmed(false);}}><option value="">Choose an invoice</option>{data.documents.filter(d=>d.type==='invoice').map(d=><option key={d.id} value={d.id}>{d.number} · Revision {d.revision}</option>)}</select></label>
-   <label>Matching customer record<select value={customerId} onChange={e=>{setCustomerId(e.target.value);setConfirmed(false);}}><option value="">Choose a synced customer</option>{customers.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+   <label>Invoice for cloud review<select aria-label="Invoice for cloud review" value={documentId} onChange={e=>{setDocumentId(e.target.value);setCustomerId('');setConfirmed(false);}}><option value="">Choose an invoice</option>{data.documents.filter(d=>d.type==='invoice').map(d=><option key={d.id} value={d.id}>{d.number} · Revision {d.revision}</option>)}</select></label>
+   <label>Matching customer record<select aria-label="Matching customer record" value={customerId} onChange={e=>{setCustomerId(e.target.value);setConfirmed(false);}}><option value="">Choose a synced customer</option>{customers.map(c=><option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
    {document&&!customers.length&&<p>Add a customer record matching the invoice’s name, email and phone, then sync both records to the cloud.</p>}
    <label><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/> I reviewed this invoice and destination for staging only.</label>
   </fieldset>
