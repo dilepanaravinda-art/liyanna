@@ -31,6 +31,7 @@ test("two independent browsers exchange documents and reset cloud controls on wo
    await route.fulfill({status:200,contentType:"application/json",body:JSON.stringify(body)});
   });
   const page=await context.newPage();
+  page.setDefaultTimeout(12000);
   await page.goto("/");
   await page.getByLabel("Email",{exact:true}).fill(user.email);
   await page.getByLabel("Password",{exact:true}).fill("synthetic-password");
@@ -73,5 +74,5 @@ test("two independent browsers exchange documents and reset cloud controls on wo
   await first.getByLabel("Open shared business",{exact:true}).selectOption(b.business.id);
   await expect(consent).not.toBeChecked();
   await expect(first.getByRole("button",{name:"Restore to this device",exact:true})).toHaveCount(0);
- } finally {await firstContext.close();await secondContext.close();}
+ } finally {await Promise.allSettled([firstContext.close(),secondContext.close()]);}
 });
