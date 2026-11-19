@@ -4,7 +4,7 @@ import type { WorkspaceSnapshot } from "../domain/model";
 import { getAccountFlag, setAccountFlag } from "../storage/account";
 import { cloudConfigured } from "./client";
 import { getCloudWorkspace, syncWorkspace, type CloudWorkspace } from "./sync";
-import { synchronise, finaliseSharedDownload } from "./guarded-sync";
+import { synchronise, finaliseSharedDownload, persistCloudAdoption } from "./guarded-sync";
 export interface SyncSettings {
   enabled: boolean;
   revision: number;
@@ -65,14 +65,17 @@ export function useCloudSync(
         role: value.role,
         scope: value.scope,
       };
-      await setAccountFlag(userId, key(value.snapshot.business.id), next);
-      if (token !== epoch.current) {
+      const adopted = await persistCloudAdoption(
+        value.snapshot,
+        () => token === epoch.current,
+        latest.current.onIncoming,
+        () => setAccountFlag(userId, key(value.snapshot.business.id), next),
+      );
+      if (!adopted) {
         if (!latest.current.settings)
           await setAccountFlag(userId, key(value.snapshot.business.id), null);
         return;
       }
-      await latest.current.onIncoming(value.snapshot);
-      if (token !== epoch.current) return;
       latest.current.settings = next;
       setSettings(next);
       setConflict(null);
