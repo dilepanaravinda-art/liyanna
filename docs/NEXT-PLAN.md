@@ -12,6 +12,11 @@ The server-only sandbox sender adapter is implemented and tested with injected t
 
 The source now includes an isolated-tested PostgreSQL ledger migration with restricted dispatcher functions, source/destination/customer rechecks, leases, bounded retries, receipt preservation and idempotent acknowledgements. It has NOT been applied to LIYANNA, and no dispatcher identity or live worker is provisioned. See docs/FINBASE-DISPATCH-LEDGER.md.
 
+
+## Inactive worker composition
+
+The source now connects claim, scoped credential resolution, last-moment database reauthorization, sandbox send and durable acknowledgement for one attempt. The amended proposed migration checks source/destination/customer and lease validity again after credential lookup. An unconfirmed acknowledgement is reported as uncertain; retain the original event for recovery. This code remains inactive and the ledger migration remains unapplied. See docs/FINBASE-SANDBOX-DISPATCH.md.
+
 ## 1. Real-account sandbox acceptance
 
 Use dedicated LIYANNA and FINBASE sandbox accounts. Save/sync one invoice and matching customer, declare the verified LIYANNA business ID as both source tenant and source business, confirm destination company membership/currency, then stage the downloaded event. Verify the receipt, exact retry and source/version conflicts. Capture actual password/cloud/PDF workflows too. Automated tests use synthetic Auth responses and database-role claims, not real account sign-in.

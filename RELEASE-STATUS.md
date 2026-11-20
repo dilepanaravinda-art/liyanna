@@ -157,3 +157,14 @@ The proposed restricted NOLOGIN role can execute claim/finish functions but cann
 GitHub validation run 44658163938 passed locked dependencies, release checks, TypeScript, 255 application tests (142 Node + 113 Vitest), production build and runtime smoke. All five existing Chromium scenarios passed in run 44658163907. Ledger tests use isolated PostgreSQL/PGlite; no real partner traffic or production dispatcher was exercised.
 
 The SaaS remains on the previously verified cloud-review deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx at https://liyanna-preview.vercel.app (READY; health HTTP 200). The inactive schema foundation requires no runtime rollout. See docs/FINBASE-DISPATCH-LEDGER.md and docs/NEXT-PLAN.md for controlled sandbox activation, worker wiring, receipt/history UI and remaining real-account/issuance gates.
+
+
+## 20 November 2026 — inactive sandbox worker composition
+
+Source a62fa79ae32cd2f8c6985173611565e5e32b0976 connects one restricted claim, scoped credential lookup, immediate reauthorization, HTTP send and durable finish. Claims and credential metadata must match source business, preparation/event identity, destination company/version and currency. Busy/waiting/terminal claims never resolve credentials or send. A failed finish after HTTP returns an uncertain acknowledgement outcome rather than claiming persisted success; retry recovery keeps the original event identity.
+
+The proposed ledger migration now includes a restricted reauthorization function checking source, owner, customer, destination and at least 12 seconds of remaining lease before the ten-second-capped HTTP request. This migration remains UNAPPLIED. No dispatcher login, role membership, credential, route, scheduler or live delivery was provisioned.
+
+Full CI run 44659085137 passed 261 application tests (142 Node + 119 Vitest), release checks, TypeScript, production build and runtime smoke. Browser run 44659085172 passed all five scenarios with synthetic authentication/RPC fixtures. SQL authorization tests use isolated PostgreSQL/PGlite; transport tests are injected and do not establish real partner acceptance.
+
+The SaaS remains on READY cloud review deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx at https://liyanna-preview.vercel.app. See docs/FINBASE-SANDBOX-DISPATCH.md and docs/NEXT-PLAN.md for sandbox provisioning, real credential rotation/revocation checks and remaining issuance/trial gates. Financial posting remains disabled.
