@@ -1,0 +1,170 @@
+# LIYANNA release status — 18 November 2026
+
+## Completed and verified
+
+The recovered source is on `release/verified-source-20261118` in https://github.com/dilepanaravinda-art/liyanna/pull/1. The deployed application commit is `82e787f374ebbc9ff3aaf92b4b2b0201d6fec2ba`.
+
+GitHub Actions run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44345786008 completed successfully. Vercel deployment `dpl_9ghwKfK8ppYgpmyoHwzazfzstfbK` is READY at https://liyanna-preview.vercel.app.
+
+Both environments passed locked dependency installation, source preflight, TypeScript validation, 142 Node tests, 62 Vitest tests, the full Next.js production build and production runtime smoke tests (homepage, liveness and unauthenticated worker rejection). The live preview homepage, `/api/health` and `/api/ready` also returned HTTP 200.
+
+The compilation failure in the lifecycle guard was fixed without widening its public overloads. Node and Vitest suites now have distinct runners, and pnpm is pinned to the version used in CI.
+
+## Live database verification
+
+The owner authorized pausing `investara-production`. It is now INACTIVE, and Liyanna project `yfbbwehvisofdkjtzacz` is ACTIVE_HEALTHY. The database connectivity query and Auth health endpoint passed (HTTP 200).
+
+`database/tests/cloud-workspace-rollback.sql` was executed successfully against the live PostgreSQL database using the authenticated role and synthetic JWT claims. It verified business creation, quotation and invoice persistence/reload, stale revision rejection, owner backup, staff document isolation, blocked staff overwrites, outsider RLS and workspace access denial, and member revocation. All fixtures were rolled back; a separate query confirmed zero remaining test users and businesses. No customer data or schema was changed.
+
+These database tests do not prove password login, browser interaction, PDF output or network synchronization through the frontend. Health advisors returned no findings. The security advisor reports leaked-password protection disabled; see https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection.
+
+## Latest local validation
+
+The latest source passed a fresh locked dependency install, TypeScript, release preflight, 142 Node tests and 65 Vitest tests (207 total), the full Next.js production build, and production runtime smoke tests. The three new PDF tests render real multipage invoice and quotation documents using the application template and exercise bundled English/Sinhala/Tamil fonts through the PDF probe. They validate PDF structure and pagination, not browser shaping or visual appearance. No application runtime behavior changed in this follow-up; the preview continues to serve the previously verified runtime.
+
+## Browser acceptance update
+
+GitHub Actions browser run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44352142203 passed against application/test commit b8a6cb55b3080517dc490956d90639c5f28e2c82. Chromium verified the sign-in UI, business setup, invoice and quote save, real PDF download structure, record persistence after page reload, and sign-out. Authentication responses were synthetic; this does not establish actual Supabase password login or recovery, cross-browser cloud sync, or PDF visual correctness in Sinhala/Tamil. The local browser process was restricted; the same test passed on GitHub's Linux runner.
+
+Controlled-trial steps are documented in docs/TRIAL-AND-INTEGRATION-ACCEPTANCE.md. No trial invitations have been sent. The owner currently provisions accounts through Supabase; there is no SaaS owner admin dashboard in LIYANNA.
+
+FINBASE source review identified an adapter implementation gap, not only missing configuration. Its integration UI explicitly marks LIYANNA as Adapter required and its gateway as not live. See docs/FINBASE-COMPATIBILITY-REVIEW.md. Live synchronization remains incomplete.
+
+## Still unverified
+
+- Actual password sign-in and account recovery through the deployed browser app.
+- Signed-in invoice/quotation workflows, browser PDF output and cloud synchronization.
+- Execution of additive migrations against an isolated staging database.
+- Live FINBASE contract, credentials, synchronization and scheduled worker activation.
+
+`/api/ready` confirms public configuration only; it does not prove Supabase availability. The worker remains disabled and unauthenticated requests return 401. The preview retains existing deployment protection. Production traffic has not been promoted.
+
+## Extended browser and live-account checks
+
+Browser run https://github.com/dilepanaravinda-art/liyanna/actions/runs/44354270120 passed all four scenarios on 18 November 2026: failed-login error/password clearing, generic recovery confirmation, expired-link rejection, and the trial journey including invoice and quotation PDF downloads in English/Sinhala/Tamil. Auth responses were synthetic. PDF headers and nonempty output were checked; visual accuracy was not approved.
+
+Added project/scripts/verify-live-account.mjs for two real sessions and read-only business/workspace comparison. Syntax validation passed; live execution has not run because dedicated test credentials were not supplied. It neither edits records nor sends email. See docs/LIVE-ACCOUNT-AND-PREVIEW-ACCESS.md.
+
+A fresh browser redirected the preview to Vercel login. The current URL therefore requires Vercel access and must not be advertised as an anonymously accessible customer SaaS. No protection settings were changed. Customer onboarding remains manual and the trial has not started. FINBASE receiving-adapter work remains open. This update does not change the deployed application runtime.
+
+## 19 November 2026 — incoming synchronization persistence fix
+
+Cloud adoption previously saved revision metadata before local workspace persistence. A failed IndexedDB save could therefore leave metadata ahead of device records. The new order persists incoming records first, then advances revision metadata only if the operation is still current. Five regression cases cover ordering, failed local storage, cancellation, and metadata failure.
+
+Application commit 721aa0144ebf5912d5b4c5cc286b93de2bd94596 passed 142 Node tests and 70 Vitest tests (212), TypeScript, release preflight, Next.js production build and production smoke tests in GitHub run 44553296233. All four Chromium acceptance cases passed in run 44553296247 using synthetic authentication. Vercel deployment dpl_2wgPXudb396t7A7QSQMyU7wMDajE is READY and assigned to https://liyanna-preview.vercel.app.
+
+This is a protected preview; Vercel sign-in can still be required. Live account recovery, actual cross-browser cloud edits and FINBASE receiving-adapter implementation remain open. No business data or database schema was modified in this update.
+
+## 19 November 2026 — onboarding and shared-business follow-up
+
+Deployed runtime commit aca943dc507d0bd4fb33fcef4c2842e04d6e75d3 adds a Getting Started panel to Overview in English, Sinhala and Tamil, linking to customer, document and backup/sharing workflows. CloudPanel now remounts when the business ID changes, clearing previous backup/member lists, passwords and consent selections. The shared-business selector has an explicit accessible label.
+
+Cloud incoming adoption now separates local storage persistence from UI publication. Records and revision metadata are saved before the new business is rendered, preserving the previous storage-failure protection while allowing shared-business initialization to load its saved settings.
+
+All 212 application tests, TypeScript, release preflight, production build and runtime smoke passed in GitHub run 44555095978. All five Chromium tests passed in run 44555096121. The new scenario uses independent browser contexts and a shared simulated provider to exchange documents in both directions and verify onboarding navigation and business-switch state reset. This is frontend integration verification, not live Supabase authentication or network synchronization verification.
+
+Vercel deployment dpl_2Tyn4j4SR3ubxBvjPztj2aQLAqRz is READY and assigned to https://liyanna-preview.vercel.app. Preview protection remains enabled. No customer data or schema was modified. FINBASE's reviewed current API still has owner registry/activity endpoints, with no LIYANNA receiving adapter identified.
+
+Next: dedicated-account live login/recovery and cross-browser cloud-edit acceptance; owner selection of customer-facing preview access; selected-business trial; FINBASE receiving-adapter development and controlled staging synchronization.
+
+## 19 November 2026 — read-only invoice handoff
+
+Added a device invoice snapshot download under Integrations > FINBASE and an authenticated owner-only GET /api/integrations/finbase/invoices?businessId=<UUID>. The API verifies the user and reads through the existing user-scoped workspace RPC. It checks owner role/scope and matching business ID, disables caching and exposes no service-role credential. Exported decimal totals come from the same calculator used by documents; quotations are excluded.
+
+The envelope is explicitly read-only with postingAuthorized=false and documentStatus=unspecified. Documents may include drafts. This is a review snapshot, not an invoice-issued event, verified FINBASE import or accounting posting authorization. No automatic delivery or receiving adapter was activated.
+
+219 application tests passed, including seven handoff/authorization cases. All five Chromium scenarios passed in run 44556387931; the trial scenario downloaded and parsed the handoff file. TypeScript, release preflight, full Next.js build and production smoke steps passed in run 44556387907. Browser identity/cloud responses remain simulated; live owner-account export still needs acceptance.
+
+Runtime commit 3424925be8343c26d1393bc702b78c557ba168e0 is deployed as dpl_HAsh6hv39Kr1a6p9QRDhras3X1kv at https://liyanna-preview.vercel.app. Preview protection remains enabled. See docs/INVOICE-HANDOFF-V1.md for the interface and limits.
+
+Next: verify the endpoint with a dedicated live owner account, implement FINBASE's receiving/mapping and service-authorization layer, agree issuance and idempotency semantics, then run controlled staging synchronization. Real login/recovery, public trial access and customer onboarding remain open.
+
+## 19 November 2026 — FINBASE receiver validation and mapping preview
+
+FINBASE draft PR https://github.com/dilepanaravinda-art/finbase/pull/1 implements POST /api/v1/integrations/liyanna/preview on branch feature/liyanna-receiver-preview-20261119 (commit 945ca10965e280b2b9900e2cad97603a40f45be3). It uses FINBASE's existing session/origin protections, company scope and sales.write permission, reads company currency and active income mapping, validates the LIYANNA snapshot and recomputes totals.
+
+The receiver rejects mismatched source-business IDs, duplicate documents and inconsistent amounts. It reports currency, customer, due-date, revenue/tax mapping and issuance review gaps. It stores no mapping/import and calls no sales or journal posting function. postingAuthorized remains false. Candidate identities are deterministic but do not constitute a durable idempotency ledger.
+
+All eight new receiver scenarios passed locally; FINBASE's full test/component/build CI passed in run 44557549396. Protected review deployment dpl_4psJJdCuukiVkaj14BdAZBby4S6k is READY at https://finbase-liyanna-preview.vercel.app and its homepage returned 200 through authenticated deployment access. The receiving POST has not been accepted with a real FINBASE account. FINBASE production/main were not modified or promoted.
+
+The receivers/finbase-preview source kit contains the receiver module, tests, route patch and application instructions. Apply through the draft PR, not by overwriting a newer FINBASE route. LIYANNA's existing protected SaaS runtime remains https://liyanna-preview.vercel.app, with its previously verified handoff exporter/API.
+
+Next: persist approved source-business/company bindings, implement issuance/approval-controlled staged imports with durable idempotency, verify both sides using dedicated live accounts, and run one controlled staging invoice before any posting or automatic synchronization. Customer trial access and live recovery remain outstanding.
+
+## 19 November 2026 — FINBASE invoice file-review interface
+
+FINBASE branch commit fbc5df0286001a7724ed5efde94d302ac7d46e74 adds a file-review panel to Integrations. It accepts LIYANNA snapshots under 60 KB, shows the source business identity, offers the selected company's existing income mappings, and sends the snapshot to the review-only receiver after explicit consent. Results explain validation requirements in plain language. Access loss clears file/result state and invalidates late responses; scope changes retain the existing parent remount.
+
+Four component scenarios cover disabled access, consent-controlled submission, pre-transmission size checks, and clearing data/late responses after access loss. Full FINBASE tests, component tests and Next.js build passed in CI run 44559636160. Protected review deployment dpl_CjQVbJHiBphRSQBQbHLZNdnz7He1 is READY at https://finbase-liyanna-preview.vercel.app; homepage returned 200 through authorized deployment access. Real-account file submission remains pending.
+
+The source kit now includes components/LiyannaPreview.tsx, the UI tests and INTEGRATE-UI.md. The authoritative complete FINBASE changes remain draft PR https://github.com/dilepanaravinda-art/finbase/pull/1. FINBASE production/main and LIYANNA's existing protected runtime were not promoted or changed by this UI follow-up.
+
+Still not implemented: persistent source-business bindings, stored staged imports, issuance approval, durable posting idempotency and automatic synchronization. Next acceptance is a dedicated-account manual file review, followed by those stored/approval-controlled import stages.
+
+
+## 19 November 2026 — bounded review files and source checklist
+
+Application commit 76eee76f6b518b763aac7814ff4154c9f021e55b adds the owner-only pre-export checklist and manual selection of bounded invoice files. Each compact JSON file contains at most 100 invoices and 60,000 UTF-8 bytes. Invoice IDs/revisions and exact totals are preserved; quantities/rates are normalized for the strict receiver. Duplicate IDs/trimmed numbers and oversized individual invoices block the export. No invoices are silently discarded; quotations remain excluded.
+
+The checklist reports missing/long customer names, missing due dates, tax mapping requirements, non-positive amounts, currency precision concerns and mandatory issuance approval. Destination-company matching and account mapping still occur in FINBASE's separate review screen. This update does not persist mappings, stage imports, post financial records, or enable synchronization.
+
+GitHub validation run 44561802869 passed release checks, TypeScript, 226 tests (142 Node + 84 Vitest), production build and runtime smoke checks. Browser run 44561802941 passed all five Chromium scenarios including source checklist display and downloaded snapshot contents. Authentication is simulated in these browser tests.
+
+Vercel deployment dpl_EbRmgUf8zbforxgJ6TGmMoZF8uvn is READY and assigned to https://liyanna-preview.vercel.app. The aliased health endpoint returned HTTP 200. Existing preview protection remains in place. Real-account acceptance and customer launch remain outstanding. See docs/NEXT-PLAN.md for the four remaining milestones.
+
+
+## 19 November 2026 — owner-only saved review destinations
+
+Runtime commit a7b531e94604247b0324968193ce578d6a22cd84 adds cloud-persisted draft FINBASE destination settings: company reference/name, currency and income mapping. The owner must explicitly confirm each save. The PostgreSQL RPC rechecks actual ownership after locking the business row; direct client writes are denied. Server revisions prevent stale overwrites, revocation advances the revision, and successful changes append immutable owner-readable audit records. Frontend state is remounted for each user/business and ignores late async responses after unmount.
+
+Migration 20261119100000_finbase_review_destinations.sql was first tested with isolated PostgreSQL/PGlite owner, staff, outsider and anonymous roles. It was then applied as an additive LIYANNA migration independently of the optional worker/commercial migrations. The connected database passed database/tests/finbase-destination-rollback.sql: owner save/reload, stale rejection, direct write denial, staff/outsider isolation, revoke and audit. All synthetic fixtures were rolled back and a follow-up query returned zero remaining test users.
+
+Next.js was patched from 16.4.2 to 16.4.6 after a security-version warning during the local build. The final locked dependency install, release checks, TypeScript, 236 application tests (142 Node + 94 Vitest), production build and runtime smoke checks passed in GitHub run 44564328432. All five Chromium scenarios passed in run 44564328408, including destination confirmation, save/reload, stale-revision feedback and revocation. Browser Auth/RPC responses are synthetic; this is not a real-password session acceptance result.
+
+Vercel deployment dpl_5MR6nz1uFrjEYaE6hXbnpYTGozHW is READY and assigned to https://liyanna-preview.vercel.app. The aliased health and public-configuration readiness endpoints returned HTTP 200. Existing Vercel protection remains in place.
+
+Saved references are unverified draft settings. They do not authorize a FINBASE connection, validate FINBASE membership/accounts, persist staged imports, post financial transactions, or activate automatic synchronization. Destination settings/audit are separate cloud records and are not part of device workspace JSON backups. Real-account acceptance and selected-customer launch remain outstanding. See docs/NEXT-PLAN.md.
+
+
+## 19 November 2026 — immutable cloud review-event preparation
+
+Runtime e882a89b9d8b6b5714e9941116d515e6108a2515 adds owner-confirmed preparation of draft-contract FINBASE review events directly from LIYANNA cloud invoices. Customer records must belong to the source business and match the invoice contact. The server rechecks source/destination revisions and active destination, recomputes two-decimal line rounding, discounts and tax, and persists one immutable event identity per business/document/revision. Exact retries reuse the original event ID, timestamp and payload; changed source/customer/destination versions conflict rather than minting a second event. Revocation blocks further preparation. Historical downloads do not authorize delivery or posting.
+
+Migration 20261119110000_finbase_review_preparations.sql was tested using isolated PostgreSQL/PGlite and then applied additively to LIYANNA. database/tests/finbase-review-preparations-rollback.sql passed against the connected database: exact totals, durable retry identity, stale rejection, immutable history, staff isolation and destination revocation. All synthetic fixtures were rolled back; the follow-up test-user count was zero. The application cannot update/delete prepared records, and preparation never inserts a FINBASE financial transaction.
+
+GitHub validation run 44566792174 passed locked dependency install, source preflight, TypeScript, 245 application tests (142 Node + 103 Vitest), Next.js production build and runtime smoke. All five Chromium scenarios passed in run 44566792194, including event preparation, downloaded JSON contents, retry reuse and history reload. Browser responses are synthetic. A panel-key collision and missing explicit selector labels identified by the first browser run were fixed before this successful run.
+
+Deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx is READY and assigned to https://liyanna-preview.vercel.app. Aliased health and public-configuration readiness endpoints returned HTTP 200. Protection remains in place. These checks do not establish actual password/recovery, source-ownership proof or live partner delivery.
+
+FINBASE main now independently contains durable staging and scoped delivery credentials, reviewed through its current source documentation. LIYANNA prepares the matching draft event shape without dispatching it. The historical invoiceIssuedV1 name/issuedOn field provides no proof of issuance. Supported preparation currencies are LKR, USD, EUR, GBP, AUD, CAD, NZD, SGD, INR, CNY, AED and SAR. Full workflow/limits: docs/FINBASE-REVIEW-PREPARATIONS.md. Updated remaining work: docs/NEXT-PLAN.md. No delivery credential, real customer mapping, pilot invitation or accounting entry was created for this release.
+
+
+## 20 November 2026 — inactive sandbox sender adapter
+
+Source commit 1b8a14395bed16d99b84596399279781e00cb063 adds a server-only adapter for the current FINBASE review-only delivery receipt. No route, scheduler, live credential or delivery flag wires it into the running SaaS. It requires explicit sandbox enablement and a trusted exact HTTPS origin/path, rejects redirects and cookie delivery, bounds response streams, uses abort timeouts, and classifies authentication/conflict/transient failures without returning raw credentials or receiver bodies. Exact retries serialize the stored event identically; successful receipts include a payload hash and remain postingAuthorized=false.
+
+Full validation run 44647775341 passed 252 application tests (142 Node + 110 Vitest), TypeScript, release checks, production build and runtime smoke. All five Chromium scenarios passed in run 44647775407. The seven sender tests use injected transports, not real partner traffic. FINBASE main's delivery response was rechecked at blob 22bce29162a1d7a850739b4729d4620acb86c92a.
+
+The SaaS continues to serve the previously verified cloud review runtime at https://liyanna-preview.vercel.app (deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx READY; health HTTP 200). The inactive adapter requires no runtime rollout. Persistent dispatch authorization/revocation checks, delivery-attempt/receipt persistence, sandbox secret provisioning, real network acceptance, issuance approval and accounting posting remain unfinished. See docs/FINBASE-SANDBOX-SENDER.md and docs/NEXT-PLAN.md.
+
+
+## 20 November 2026 — proposed durable dispatch ledger
+
+Source 390f7fa3faa637632c73d980b831d025d46e84b8 adds migration 20261120090000_finbase_dispatch_ledger.sql and isolated PostgreSQL tests. The migration has NOT been applied to the connected database. No dispatcher membership, worker, route, credential or delivery flag was activated.
+
+The proposed restricted NOLOGIN role can execute claim/finish functions but cannot mutate tables directly; browser roles cannot call the functions or access ledger tables. Claim serializes on the source business, rechecks owner, destination revision/config, exact invoice contents and matching customer, then issues a bounded lease. The ledger preserves receipts, limits attempts, schedules retry backoff and rejects expired/replaced completions or changed acknowledgements. Results accept only bounded sanitized codes or validated receipt metadata. An identical completed acknowledgement is idempotent. Requests already in flight cannot be remotely cancelled by local revocation; subsequent claims are blocked.
+
+GitHub validation run 44658163938 passed locked dependencies, release checks, TypeScript, 255 application tests (142 Node + 113 Vitest), production build and runtime smoke. All five existing Chromium scenarios passed in run 44658163907. Ledger tests use isolated PostgreSQL/PGlite; no real partner traffic or production dispatcher was exercised.
+
+The SaaS remains on the previously verified cloud-review deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx at https://liyanna-preview.vercel.app (READY; health HTTP 200). The inactive schema foundation requires no runtime rollout. See docs/FINBASE-DISPATCH-LEDGER.md and docs/NEXT-PLAN.md for controlled sandbox activation, worker wiring, receipt/history UI and remaining real-account/issuance gates.
+
+
+## 20 November 2026 — inactive sandbox worker composition
+
+Source a62fa79ae32cd2f8c6985173611565e5e32b0976 connects one restricted claim, scoped credential lookup, immediate reauthorization, HTTP send and durable finish. Claims and credential metadata must match source business, preparation/event identity, destination company/version and currency. Busy/waiting/terminal claims never resolve credentials or send. A failed finish after HTTP returns an uncertain acknowledgement outcome rather than claiming persisted success; retry recovery keeps the original event identity.
+
+The proposed ledger migration now includes a restricted reauthorization function checking source, owner, customer, destination and at least 12 seconds of remaining lease before the ten-second-capped HTTP request. This migration remains UNAPPLIED. No dispatcher login, role membership, credential, route, scheduler or live delivery was provisioned.
+
+Full CI run 44659085137 passed 261 application tests (142 Node + 119 Vitest), release checks, TypeScript, production build and runtime smoke. Browser run 44659085172 passed all five scenarios with synthetic authentication/RPC fixtures. SQL authorization tests use isolated PostgreSQL/PGlite; transport tests are injected and do not establish real partner acceptance.
+
+The SaaS remains on READY cloud review deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx at https://liyanna-preview.vercel.app. See docs/FINBASE-SANDBOX-DISPATCH.md and docs/NEXT-PLAN.md for sandbox provisioning, real credential rotation/revocation checks and remaining issuance/trial gates. Financial posting remains disabled.

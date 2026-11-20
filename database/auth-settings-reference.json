@@ -1,0 +1,13 @@
+{
+  "observedOn": "2026-10-19",
+  "source": "Read-only public Auth settings endpoint, previous check in this recovery session",
+  "disable_signup": true,
+  "email_login_enabled": true,
+  "anonymous_login_enabled": false,
+  "phone_login_enabled": false,
+  "social_login_enabled": false,
+  "saml_enabled": false,
+  "passkeys_enabled": false,
+  "email_autoconfirm": false,
+  "notes": "Reference only. Not a full Auth management configuration export. Configure equivalent settings separately in the destination Supabase project. SMTP credentials, signing keys, secrets, users, and sessions are excluded."
+}

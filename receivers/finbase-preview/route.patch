@@ -1,0 +1,27 @@
+--- a/app/api/v1/[...path]/route.ts
++++ b/app/api/v1/[...path]/route.ts
+@@ -1,3 +1,4 @@
++import {liyannaPreviewInput,previewLiyannaSnapshot} from '../../../../src/modules/integrations/liyanna-preview.ts';
+ import {checkStorage,checkFinancials} from '../../../../src/modules/monitoring/live-checks.ts';
+ import {launchReadiness} from '../../../../src/modules/monitoring/readiness.ts';
+ import { ownerConnectionActivity } from '../../../../src/modules/ai-ceo/owner-connection-activity-route.mjs';
+@@ -110,6 +111,19 @@
+         if (path === 'auth/issue-reset' && write)
+             return json(await auth.issueReset(actor, String(body.userId)));
+         const scope = readScope(url);
++        if(path==='integrations/liyanna/preview' && write) {
++            if(scope.unitId) deny('COMPANY_SCOPE_REQUIRED');
++            const input=liyannaPreviewInput.parse(body);
++            return json(await db.withScope(actor,scope,async tx=>{
++                await requirePermission(tx,'sales.write');
++                const company=(await tx.query('select currency from companies where id=$1 and tenant_id=$2',[scope.companyId,scope.tenantId])).rows[0];
++                if(!company) deny('NOT_FOUND');
++                const mapping=(await tx.query("select a.id from account_mappings m join accounts a on a.id=m.account_id where m.category=$1 and a.active and a.category='income'",[input.categoryId])).rows.length>0;
++                try {
++                    return {...previewLiyannaSnapshot(input,{companyCurrency:company.currency,mappingAvailable:mapping}),target:{tenantId:scope.tenantId,companyId:scope.companyId,currency:company.currency}};
++                } catch { deny('INVALID_INPUT'); }
++            }));
++        }
+         const cashOptions={cashCursor:url.searchParams.get('cashCursor'),cashAll:url.searchParams.get('export')==='1'};
+         if(path==='integrations/owner/activity' && !write) {
+             if(scope.unitId) deny('FORBIDDEN');

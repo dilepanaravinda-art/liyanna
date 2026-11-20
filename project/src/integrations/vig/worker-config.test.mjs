@@ -1,0 +1,13 @@
+import { test } from 'node:test';
+import { strict as assert } from 'node:assert';
+import { parseWorkerConfig } from './worker-config.mjs';
+const base = { LIYANNA_WORKER_ENABLED:'true', LIYANNA_WORKER_SECRET:'a'.repeat(40), LIYANNA_WORKER_ID:'123e4567-e89b-42d3-a456-426614174000', LIYANNA_PROVIDER_ENDPOINTS:JSON.stringify({finbase:'https://api.example.com/v1/events'}) };
+test('disabled worker fails closed',()=>assert.deepEqual(parseWorkerConfig({}),{enabled:false}));
+test('valid staging configuration',()=>assert.equal(parseWorkerConfig({...base,NODE_ENV:'development'}).config.allowedOrigins[0],'https://api.example.com'));
+test('production requires explicit approval',()=>assert.throws(()=>parseWorkerConfig({...base,NODE_ENV:'production'}),/approval/));
+test('rejects short worker secret',()=>assert.throws(()=>parseWorkerConfig({...base,LIYANNA_WORKER_SECRET:'weak'}),/secret/));
+test('rejects invalid worker UUID',()=>assert.throws(()=>parseWorkerConfig({...base,LIYANNA_WORKER_ID:'bad'}),/UUID/));
+test('rejects HTTP endpoint',()=>assert.throws(()=>parseWorkerConfig({...base,LIYANNA_PROVIDER_ENDPOINTS:'{"finbase":"http://example.com"}'}),/not allowed/));
+test('rejects localhost endpoint',()=>assert.throws(()=>parseWorkerConfig({...base,LIYANNA_PROVIDER_ENDPOINTS:'{"finbase":"https://localhost:3000"}'}),/not allowed/));
+test('rejects malformed JSON',()=>assert.throws(()=>parseWorkerConfig({...base,LIYANNA_PROVIDER_ENDPOINTS:'{' }),/Invalid provider/));
+test('rejects invalid batch size',()=>assert.throws(()=>parseWorkerConfig({...base,LIYANNA_WORKER_BATCH_LIMIT:'101'}),/batch/));

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { inspectRelease, inspectReleaseFiles } from './verify-release.mjs';
+import { resolve } from 'node:path';
+const valid = { configText: 'const config = { images: { unoptimized: true } };', routeText: "export const runtime = 'nodejs'; const handler = make({enabled: false}); export const POST = handler;", packageText: JSON.stringify({ scripts: { build: 'next build', typecheck: 'tsc --noEmit', test: 'vitest run' } }), lockfileExists: true };
+test('current source passes release static checks', () => assert.equal(inspectReleaseFiles(resolve(import.meta.dirname, '..')).ok, true));
+test('rejects static export with API worker', () => assert.match(inspectRelease({ ...valid, configText: 'output: "export"' }).problems.join(' '), /Static export/));
+test('requires node runtime', () => assert.match(inspectRelease({ ...valid, routeText: 'export const POST = handler; enabled: false' }).problems.join(' '), /Node.js/));
+test('requires disabled-by-default worker', () => assert.match(inspectRelease({ ...valid, routeText: "export const runtime = 'nodejs'; export const POST = handler;" }).problems.join(' '), /fail-closed/));
+test('requires dependency lockfile', () => assert.match(inspectRelease({ ...valid, lockfileExists: false }).problems.join(' '), /lockfile/));
+test('requires test and build scripts', () => assert.match(inspectRelease({ ...valid, packageText: '{}' }).problems.join(' '), /scripts/));

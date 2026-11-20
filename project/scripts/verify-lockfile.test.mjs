@@ -1,0 +1,11 @@
+import { test } from 'node:test';
+import { strict as assert } from 'node:assert';
+import { inspectLockfile, inspectLockfileAt } from './verify-lockfile.mjs';
+import { resolve } from 'node:path';
+const lock = `lockfileVersion: '9.0'\nimporters:\n\n  .:\n    dependencies:\n      react:\n        specifier: 19.3.1\n        version: 19.3.1\n    devDependencies:\n      typescript:\n        specifier: 7.0.2\n        version: 7.0.2\npackages:\n`;
+const pkg = {dependencies:{react:'19.3.1'},devDependencies:{typescript:'7.0.2'}};
+test('real lockfile matches pinned direct dependencies',()=> assert.equal(inspectLockfileAt(resolve(import.meta.dirname,'..')).ok,true));
+test('valid pinned manifest passes',()=>assert.equal(inspectLockfile(pkg,lock).ok,true));
+test('version drift is detected',()=>assert.equal(inspectLockfile({...pkg,dependencies:{react:'19.3.2'}},lock).ok,false));
+test('ranges are rejected',()=>assert.equal(inspectLockfile({...pkg,dependencies:{react:'^19.3.1'}},lock).ok,false));
+test('missing dependency is detected',()=>assert.equal(inspectLockfile({...pkg,dependencies:{missing:'1.0.0'}},lock).ok,false));

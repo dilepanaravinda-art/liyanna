@@ -1,0 +1,430 @@
+{
+  "deployment": {
+    "id": "dpl_HHc7dYKzPg3zhU7QESf4spjt95uQ",
+    "name": "liyanna",
+    "url": "liyanna-bj4pyzw44-dilepanaravinda-4530.vercel.app",
+    "type": "LAMBDAS",
+    "state": "READY",
+    "createdAt": 1792315347983,
+    "creator": {
+      "uid": "MgFerXpWUGuVWX3jvNowENja",
+      "username": "dilepanaravinda-4530"
+    },
+    "project": {
+      "id": "prj_N7QdFNT83OJCggjNYhkzCibOGM5b",
+      "name": "liyanna",
+      "framework": "nextjs"
+    },
+    "meta": {},
+    "alias": [
+      "liyanna.vercel.app",
+      "liyanna-dilepanaravinda-4530.vercel.app"
+    ],
+    "target": "production",
+    "regions": [
+      "iad1"
+    ],
+    "buildingAt": 1792315349249,
+    "ready": 1792315383302,
+    "readyState": "READY",
+    "aliasError": null
+  },
+  "fileCount": 48,
+  "sourceHashMatches": 45,
+  "missingImports": [
+    {
+      "file": "next-env.d.ts",
+      "ref": "./.next/types/routes.d.ts"
+    },
+    {
+      "file": "next-env.d.ts",
+      "ref": "./.next/types/root-params.d.ts"
+    }
+  ],
+  "files": [
+    {
+      "path": ".npmrc",
+      "bytes": 58,
+      "sha1": "ea8feb10c99f4e814dd2f3020b80782052cd270d",
+      "sha256": "5c327b2e82437ccde828c1588bfe71ac6dd8626ffee00771717df6fd76651383",
+      "vercelSourceId": "ea8feb10c99f4e814dd2f3020b80782052cd270d",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "next-env.d.ts",
+      "bytes": 288,
+      "sha1": "915946e261450f4fb6aab2ca862c8b440b748240",
+      "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b",
+      "vercelSourceId": "915946e261450f4fb6aab2ca862c8b440b748240",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "next.config.ts",
+      "bytes": 174,
+      "sha1": "f97f7db9195ef66616c67a3e826e4cab828103d4",
+      "sha256": "e3ce80ac43dcd1a5318935d4761729e777ec9e439faae1357a556b5df202a29c",
+      "vercelSourceId": "f97f7db9195ef66616c67a3e826e4cab828103d4",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "package.json",
+      "bytes": 864,
+      "sha1": "ad449dadfd272d26da3c201f52b7af19685854cb",
+      "sha256": "b624c436de4fa72a95734fab07d94c7c0315ad704d6d4102b46a496ff9a3e8cb",
+      "vercelSourceId": "ad449dadfd272d26da3c201f52b7af19685854cb",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 65155,
+      "sha1": "55c2c8354215d699a3dd79378cd9e5e6fd19da27",
+      "sha256": "c1e7df5dcd1ac0b34b732d628243241a062546bf58101d2cab6bc120cc73b117",
+      "vercelSourceId": "55c2c8354215d699a3dd79378cd9e5e6fd19da27",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 654,
+      "sha1": "3313090304500b271c1078041dc47c866a3a851f",
+      "sha256": "916de057201cda7f7e85ca303609a27ee92d04f8150eed19a663911e28a74ac6",
+      "vercelSourceId": "3313090304500b271c1078041dc47c866a3a851f",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/brand/liyanna.png",
+      "bytes": 410554,
+      "sha1": "d969bcffa9a7e7313e2007fd7fb06b02a46902c9",
+      "sha256": "f2e442155b16c76c34a35f3453dd213a2d6e5a005580cc10b820f0b682a55b1a",
+      "vercelSourceId": "d969bcffa9a7e7313e2007fd7fb06b02a46902c9",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/NotoSans-Bold.ttf",
+      "bytes": 432376,
+      "sha1": "3da32b3f0d1f3fb9638a39a531b2aa232e31473d",
+      "sha256": "87cb2d84472a7d66da659ee47b6cdb9552326e8c128245231f191b6ac72529d9",
+      "vercelSourceId": "3da32b3f0d1f3fb9638a39a531b2aa232e31473d",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/NotoSans-Regular.ttf",
+      "bytes": 431364,
+      "sha1": "20582856ba3b6c332358bc20c5c529d7474e425c",
+      "sha256": "f3961a9cde016d41a4879aecda1474d3a36d6bf54fa0e4643de029cc2248b0e8",
+      "vercelSourceId": "20582856ba3b6c332358bc20c5c529d7474e425c",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/NotoSansSinhala-Bold.ttf",
+      "bytes": 88508,
+      "sha1": "04c2ac320bae60612b04541c02dbd726d6e77d2d",
+      "sha256": "438ce1325e788ec0501042dd6e798c0ec02231a42dbf42e72d17b338aa46742a",
+      "vercelSourceId": "04c2ac320bae60612b04541c02dbd726d6e77d2d",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/NotoSansSinhala-Regular.ttf",
+      "bytes": 90296,
+      "sha1": "7392137f377f2446469940158172359e7ad5459e",
+      "sha256": "46d5b54952a624e6e3981e0968aecc5464f3b1081131dd7a1fcd42fbf7966471",
+      "vercelSourceId": "7392137f377f2446469940158172359e7ad5459e",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/NotoSansTamil-Bold.ttf",
+      "bytes": 46428,
+      "sha1": "0ad7616e6c14119b20709bd633fe55d6bec3d1f3",
+      "sha256": "04a472e49fa83b387976756554fe179de631a950d79f652ebba14a39a44f5d71",
+      "vercelSourceId": "0ad7616e6c14119b20709bd633fe55d6bec3d1f3",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/NotoSansTamil-Regular.ttf",
+      "bytes": 46600,
+      "sha1": "60ddaa29d741828a1f6fa6137001baabdf62b51a",
+      "sha256": "6634d9cc97a726e670df41281dd32b167a6b9b71f2036e19671ff08fdde0c292",
+      "vercelSourceId": "60ddaa29d741828a1f6fa6137001baabdf62b51a",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "public/fonts/OFL.txt",
+      "bytes": 4377,
+      "sha1": "a675210122a9ed315584708779c097e7d277e1d4",
+      "sha256": "0dab92d0544f7b233403f14b84a663bdbfa746982eda629e7f4f9ffe1b036feb",
+      "vercelSourceId": "a675210122a9ed315584708779c097e7d277e1d4",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/app/globals.css",
+      "bytes": 26846,
+      "sha1": "dbf0c3573eceb6aa78643d20895101d9f259e464",
+      "sha256": "76d2f8d06491ebf02f8631236ed7a355cb1630c6c97da9ba816c7e0980f4bd1c",
+      "vercelSourceId": "dbf0c3573eceb6aa78643d20895101d9f259e464",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/app/layout.tsx",
+      "bytes": 458,
+      "sha1": "8d7d70974250912230f31263b62e194f06cb771f",
+      "sha256": "bbb93ca9515c83430643897a36472adbdca13f8ff8589e630eaac2e84b423dc1",
+      "vercelSourceId": "8d7d70974250912230f31263b62e194f06cb771f",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/app/page.tsx",
+      "bytes": 431,
+      "sha1": "7905c23f072b3a392aad91eb510cefc793794ff3",
+      "sha256": "614804d781ef905bdde32ff7f2669462fd67d5c5cc64041409323edb5cc571ee",
+      "vercelSourceId": "7905c23f072b3a392aad91eb510cefc793794ff3",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/cloud/backup.ts",
+      "bytes": 1538,
+      "sha1": "7fba9964a79c8645fd50b4795569164c2a91cebb",
+      "sha256": "f1c3e2f120faaf44e26f654f1fe49866760c46902717e8af83819db7b0bb97c5",
+      "vercelSourceId": "7fba9964a79c8645fd50b4795569164c2a91cebb",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/cloud/client.ts",
+      "bytes": 756,
+      "sha1": "cd1d327043b11cdbd3d570d2195f868000969c6e",
+      "sha256": "cb04338e182e698f74c8ce1d23edf1bd8336477291f46c9cd47f32ee73ce6039",
+      "vercelSourceId": "cd1d327043b11cdbd3d570d2195f868000969c6e",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/cloud/guarded-sync.ts",
+      "bytes": 1653,
+      "sha1": "c9544acb6ee68972b0e1644f8b6600ccbcc1a4b8",
+      "sha256": "331b2c66e5da2779eb5fd2457765b843caa9ba092ecc353a76dddfdece0ecac3",
+      "vercelSourceId": "c9544acb6ee68972b0e1644f8b6600ccbcc1a4b8",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/cloud/sync.ts",
+      "bytes": 2040,
+      "sha1": "bc5858cd72e2ae59e6fff7317b89f53a6922fd51",
+      "sha256": "d745e87e4ac3139ed9514b552db5e59d358b54ec6e37179cda33277972edb62c",
+      "vercelSourceId": "bc5858cd72e2ae59e6fff7317b89f53a6922fd51",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/cloud/use-sync.ts",
+      "bytes": 8192,
+      "sha1": "c74be225fa9f5662a0a3613bb6483c04c348d56a",
+      "sha256": "8a5d33778cd0544432d8cc16bbbe217b9ece6be793fb0498ae54cef046adc729",
+      "vercelSourceId": "c74be225fa9f5662a0a3613bb6483c04c348d56a",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/domain/document-save.ts",
+      "bytes": 977,
+      "sha1": "4aed63e3afcad8362d85b9c219ab10e237d79f79",
+      "sha256": "0846d1ef22b0d0d7adc2642e0e92fd2591536779fd55ff4e9716c7b803928863",
+      "vercelSourceId": "4aed63e3afcad8362d85b9c219ab10e237d79f79",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/domain/model.ts",
+      "bytes": 2785,
+      "sha1": "8497b90b7fe1e5e3aebe9e42f9a722889981d7f6",
+      "sha256": "aa752f6cf777bd5ecfd4155b43fd64be27aae8151a76898c0b8b50951728ff7b",
+      "vercelSourceId": "8497b90b7fe1e5e3aebe9e42f9a722889981d7f6",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/domain/money.ts",
+      "bytes": 2496,
+      "sha1": "b6993a8ef893c27d3aa825ab33a83fd4a65d419a",
+      "sha256": "eac247d3023ee7e0dc46e8ee012c27cf9fcf156720c985dcf49d19c1ae24305a",
+      "vercelSourceId": "b6993a8ef893c27d3aa825ab33a83fd4a65d419a",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/domain/validation.ts",
+      "bytes": 4103,
+      "sha1": "63db5e77e6e30b3f3082ce065b9cbf2fd1dec3c7",
+      "sha256": "e37dd51d637ac261ae92e04689d1488d5ff43b665c6d87ef4ca7bc8e4431addd",
+      "vercelSourceId": "63db5e77e6e30b3f3082ce065b9cbf2fd1dec3c7",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/documents/editor.tsx",
+      "bytes": 15510,
+      "sha1": "b4816e6b9cee85bf14d08b6182a66bb8b99a61a4",
+      "sha256": "e06c8e98c7ceba9880e0a669c96542620e19c48a3d7fa582062bc689dc710ebd",
+      "vercelSourceId": null,
+      "verification": "Full browser source copy; Vercel ID unavailable due connector tree depth limit; final newline normalized by Vercel UI"
+    },
+    {
+      "path": "src/features/documents/list.tsx",
+      "bytes": 6163,
+      "sha1": "f46876670191904f563fefd55fde4478076cdd34",
+      "sha256": "0fcec2759a4a57dda40b5c106a5bb58071bcd65d78bc019ae939cb568d19271a",
+      "vercelSourceId": null,
+      "verification": "Full browser source copy; Vercel ID unavailable due connector tree depth limit; final newline normalized by Vercel UI"
+    },
+    {
+      "path": "src/features/documents/preview.tsx",
+      "bytes": 4078,
+      "sha1": "68b0fdfddfd1b2cc1dbae0f7b0a5cb731991c116",
+      "sha256": "10fe0dd60ec1bc24fe4b730710be0894ab41a9992e59507ec836b114666111bc",
+      "vercelSourceId": null,
+      "verification": "Full browser source copy; Vercel ID unavailable due connector tree depth limit; final newline normalized by Vercel UI"
+    },
+    {
+      "path": "src/features/access-copy.ts",
+      "bytes": 7422,
+      "sha1": "417dcd235688c63dcf7a34057b3d86da70f9ba20",
+      "sha256": "af529601f99c7d03f1ef6d80fc38f6288e4cd1b4b5e17403237df440d4a20eca",
+      "vercelSourceId": "417dcd235688c63dcf7a34057b3d86da70f9ba20",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/account-access.tsx",
+      "bytes": 6723,
+      "sha1": "9b68830f9d1bb2b8ac7e26c4e507ae0ad1aeedfa",
+      "sha256": "8c6c1a0eef767783df1d4de15679e23f4d4b05158efcd24b610a08b4470899d1",
+      "vercelSourceId": "9b68830f9d1bb2b8ac7e26c4e507ae0ad1aeedfa",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/account-recovery.tsx",
+      "bytes": 7957,
+      "sha1": "b1ae1bf04ea3f5bc12fddbb5bcf1e5be4c98fa1c",
+      "sha256": "9f784583daf70c7c1ace3420c71f433f8aba11a7ec580127e06cfdc7a5d77733",
+      "vercelSourceId": "b1ae1bf04ea3f5bc12fddbb5bcf1e5be4c98fa1c",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/app.tsx",
+      "bytes": 16126,
+      "sha1": "1c6c2b76ba86f9082a2e430e6d4cedfca9b7213b",
+      "sha256": "00cd3b2c83f492ecad506318e8be4a6596fda382fbf1bb6d94364f88ea2d4105",
+      "vercelSourceId": "1c6c2b76ba86f9082a2e430e6d4cedfca9b7213b",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/backup-team.tsx",
+      "bytes": 3569,
+      "sha1": "3132e1f4d54f7471c6343d86eb85913e8ed6f90b",
+      "sha256": "71fb506c8b1013e5a7149d7c8c5221e558faee6843a9b647279619070a7cd84d",
+      "vercelSourceId": "3132e1f4d54f7471c6343d86eb85913e8ed6f90b",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/business-form.tsx",
+      "bytes": 8040,
+      "sha1": "e93827450eb584746df17d468f392ff1cd31630c",
+      "sha256": "e2cfbd415fc4228b6e9275f8673c69db422d74586d734d7d581b93067c484815",
+      "vercelSourceId": "e93827450eb584746df17d468f392ff1cd31630c",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/cloud-panel.tsx",
+      "bytes": 16714,
+      "sha1": "ac33c51e1ef872d13a36fb595f34aaadf5449af4",
+      "sha256": "49efafd44daf30a069773f08d63d73a89366ea9219a50257197c3a8fd9e792cb",
+      "vercelSourceId": "ac33c51e1ef872d13a36fb595f34aaadf5449af4",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/components.tsx",
+      "bytes": 2103,
+      "sha1": "5dee93e7057bbe76c7627314d14126e3dea20125",
+      "sha256": "24eb8d27b2d0c3e678dcd1d8c8b489fe1eff667c8fdc313f1702e70fc0091a8a",
+      "vercelSourceId": "5dee93e7057bbe76c7627314d14126e3dea20125",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/customers.tsx",
+      "bytes": 6796,
+      "sha1": "3baf096f5c601930617ee7f94507e7d2db933da2",
+      "sha256": "9d023c6cd5907bda7fe74e1fd0c9f57e6f7217aa9a0e4bb16c95773e0287faac",
+      "vercelSourceId": "3baf096f5c601930617ee7f94507e7d2db933da2",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/legacy-records.tsx",
+      "bytes": 2097,
+      "sha1": "70d6394203c9c7f46ff2e36b7a84835058e54baf",
+      "sha256": "b7365ee4d89d1c781b523630bd015257d5194ea086777f5429e67b88b57c2903",
+      "vercelSourceId": "70d6394203c9c7f46ff2e36b7a84835058e54baf",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/features/workspace-start.tsx",
+      "bytes": 4064,
+      "sha1": "c36abb5a327d9f289d4d4848ff1998c67e40aca2",
+      "sha256": "e3b45a1809aae0caa69d7fdf647b4771373b29f31bff68e480d524169835a4c2",
+      "vercelSourceId": "c36abb5a327d9f289d4d4848ff1998c67e40aca2",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/i18n/index.ts",
+      "bytes": 32917,
+      "sha1": "320a0b570c7e698b10e583d129fd865128b28467",
+      "sha256": "01b6a0f1f2717cce74832cdbb440e1f929c540e68a494999aa5ab917179e76a2",
+      "vercelSourceId": "320a0b570c7e698b10e583d129fd865128b28467",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/pdf/probe.ts",
+      "bytes": 1860,
+      "sha1": "1bdd755fdae0c5f861fa5113e9af909783491e86",
+      "sha256": "3528e066a25528a2ddc56897b375df7977602d1c026ce89911bf96453d8b6266",
+      "vercelSourceId": "1bdd755fdae0c5f861fa5113e9af909783491e86",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/pdf/render.ts",
+      "bytes": 4673,
+      "sha1": "ffecb3f990af39e0dec5c27ea97095efe2ec9c13",
+      "sha256": "016e19a16c253156fc7b8c713af307cc9367cc8cf8f808d6a150b2dac962c009",
+      "vercelSourceId": "ffecb3f990af39e0dec5c27ea97095efe2ec9c13",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/pdf/template.ts",
+      "bytes": 6908,
+      "sha1": "1f15362a719836b6900e0734b498442324a696d3",
+      "sha256": "b6e929b2e94552b08eb9cafc12e6b66f842f0e7780257f252f0c4b3a0bdd55c2",
+      "vercelSourceId": "1f15362a719836b6900e0734b498442324a696d3",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/storage/account.ts",
+      "bytes": 667,
+      "sha1": "93a18cbe312f7c7cef78c8e227279d0702eee49b",
+      "sha256": "541865bd7b112fb5b7be3aaceb589bd079c0a2e1c858b95fdfb0172a94f6d0b9",
+      "vercelSourceId": "93a18cbe312f7c7cef78c8e227279d0702eee49b",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/storage/backup.ts",
+      "bytes": 2029,
+      "sha1": "9e26c00eb1ed30c80c6672ce29bd8401141471c5",
+      "sha256": "578a891aa8a5361e1c0f089ff213aae773e38ff1906e4df54fbca3c3f6345bcd",
+      "vercelSourceId": "9e26c00eb1ed30c80c6672ce29bd8401141471c5",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/storage/local.ts",
+      "bytes": 1968,
+      "sha1": "0846cddf56bc51dc8e12e193a84e033c4b446253",
+      "sha256": "650bdfa83877939314f10e38b36ef2fb5bfc54bf3e02101b3c7bba60db07e7c5",
+      "vercelSourceId": "0846cddf56bc51dc8e12e193a84e033c4b446253",
+      "verification": "Exact Vercel SHA-1 match"
+    },
+    {
+      "path": "src/storage/repository.ts",
+      "bytes": 244,
+      "sha1": "d339bb9e909a54811c27ba8cdd2aef22fe98b5c9",
+      "sha256": "213b70317f798cf800ddea20530fca856d1c08e999db205a63be91c2388b5d2f",
+      "vercelSourceId": "d339bb9e909a54811c27ba8cdd2aef22fe98b5c9",
+      "verification": "Exact Vercel SHA-1 match"
+    }
+  ]
+}

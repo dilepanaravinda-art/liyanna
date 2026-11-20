@@ -1,0 +1,11 @@
+import { describe, expect, it, vi } from 'vitest';
+import { deliverEvent, integrationEventSchema, retryDelayMs, type DeliveryStore } from './event-envelope';
+const event = {schemaVersion:'1.0',eventId:'9b2ed9a2-9d4a-4f41-ae24-659ab3c72a3f',correlationId:'e89d84b7-8f61-48e8-b827-89197b0b174d',idempotencyKey:'invoice_1234567890123456',providerId:'liyanna',eventType:'liyanna.invoice.issued',tenantId:'t1',businessId:'b1',occurredAt:'2026-11-18T12:00:00Z',sourceId:'inv1',payload:{invoiceId:'inv1'}};
+const store = (claim: 'claimed'|'busy'|'already-delivered' = 'claimed') => ({claim:vi.fn(async()=>claim),delivered:vi.fn(async()=>{}),failed:vi.fn(async()=>{})}) satisfies DeliveryStore;
+describe('VIG event delivery',()=>{
+ it('rejects malformed or extra event fields',()=>{expect(integrationEventSchema.safeParse({...event,secret:'x'}).success).toBe(false);expect(integrationEventSchema.safeParse(event).success).toBe(true)});
+ it('delivers once and records completion',async()=>{const s=store();const transport=vi.fn(async()=>{});expect(await deliverEvent({rawEvent:event,destination:'finbase',attempt:1,store:s,transport,authorize:async()=>{}})).toBe('delivered');expect(s.delivered).toHaveBeenCalledOnce()});
+ it('skips duplicate delivery',async()=>{const s=store('already-delivered');const transport=vi.fn();expect(await deliverEvent({rawEvent:event,destination:'finbase',attempt:1,store:s,transport,authorize:async()=>{}})).toBe('duplicate');expect(transport).not.toHaveBeenCalled()});
+ it('fails closed on denied authorization',async()=>{const s=store();await expect(deliverEvent({rawEvent:event,destination:'finbase',attempt:1,store:s,transport:async()=>{},authorize:async()=>{throw new Error('revoked')}})).rejects.toThrow('revoked');expect(s.claim).not.toHaveBeenCalled()});
+ it('schedules retry and eventually dead-letters',async()=>{const s=store();const transport=async()=>{throw new Error('unavailable')};expect(await deliverEvent({rawEvent:event,destination:'finbase',attempt:1,store:s,transport,authorize:async()=>{},now:new Date('2026-11-18T12:00:00Z')})).toBe('retry');expect(s.failed).toHaveBeenCalledWith(event.eventId,'finbase','unavailable','2026-11-18T12:01:00.000Z');expect(await deliverEvent({rawEvent:event,destination:'finbase',attempt:9,store:s,transport,authorize:async()=>{}})).toBe('dead-letter');expect(retryDelayMs(9)).toBeNull()});
+});
