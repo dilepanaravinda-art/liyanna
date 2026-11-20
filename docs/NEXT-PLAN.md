@@ -1,8 +1,12 @@
-# LIYANNA next development plan — 19 November 2026
+# LIYANNA next development plan — 20 November 2026
 
 ## Completed foundation
 
 LIYANNA now saves owner-only draft destinations and immutable cloud invoice review preparations. Exact retries retain the original event identity and payload. The cloud recomputes amounts, validates matching customer/source/destination versions, blocks stale or conflicting changes and enforces owner-only access. Review files use FINBASE's existing draft staging shape. FINBASE independently now has durable staging and scoped service credentials; these are existing capabilities, not newly implemented in this LIYANNA iteration.
+
+## New sender foundation
+
+The server-only sandbox sender adapter is implemented and tested with injected transports. It validates an exact HTTPS destination, rejects redirects/cookies, caps receipt size, applies a timeout and classifies authentication/conflict/temporary errors. It serializes the stored event identically for retries and returns a receipt/payload hash without raw credentials. It has no route, scheduler or live credential wiring. See docs/FINBASE-SANDBOX-SENDER.md.
 
 ## 1. Real-account sandbox acceptance
 
