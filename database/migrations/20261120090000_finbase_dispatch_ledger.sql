@@ -36,7 +36,7 @@ begin
  values(p_preparation,'leased',n,token,clock_timestamp()+interval '60 seconds')
  on conflict(preparation_id) do update set status='leased',attempt_count=n,lease_token=token,lease_until=clock_timestamp()+interval '60 seconds',next_retry=null,updated_at=clock_timestamp();
  insert into public.liyanna_review_dispatch_attempts(preparation_id,attempt,lease_token) values(p_preparation,n,token);
- return jsonb_build_object('status','claimed','businessId',p_business,'event',p.event,'leaseToken',token,'attempt',n);
+ return jsonb_build_object('status','claimed','businessId',p_business,'event',p.event,'destination',p.destination_config,'destinationRevision',p.destination_revision,'leaseToken',token,'attempt',n);
 end $$;
 create function public.liyanna_finish_review_dispatch(p_preparation uuid,p_lease uuid,p_result jsonb) returns jsonb language plpgsql security definer set search_path='' as $$
 declare s public.liyanna_review_dispatches;a public.liyanna_review_dispatch_attempts;outcome_status text;receipt uuid;
@@ -64,3 +64,19 @@ begin
 end $$;
 revoke all on function public.liyanna_claim_review_dispatch(uuid,uuid),public.liyanna_finish_review_dispatch(uuid,uuid,jsonb) from public,anon,authenticated;
 grant execute on function public.liyanna_claim_review_dispatch(uuid,uuid),public.liyanna_finish_review_dispatch(uuid,uuid,jsonb) to liyanna_review_dispatcher;
+
+create function public.liyanna_authorize_review_dispatch(p_business uuid,p_preparation uuid,p_lease uuid) returns boolean language plpgsql security definer set search_path='' as $$
+declare p public.liyanna_finbase_review_preparations;b public.liyanna_businesses;d public.liyanna_finbase_destinations;s public.liyanna_review_dispatches;
+begin
+ select * into b from public.liyanna_businesses where id=p_business for update;
+ select * into p from public.liyanna_finbase_review_preparations where id=p_preparation and business_id=p_business;
+ if p.id is null or b.owner_id is distinct from p.prepared_by then return false;end if;
+ select * into d from public.liyanna_finbase_destinations where business_id=p_business;
+ if d.status is distinct from 'draft' or d.revision<>p.destination_revision or d.config<>p.destination_config then return false;end if;
+ select * into s from public.liyanna_review_dispatches where preparation_id=p_preparation;
+ if s.status is distinct from 'leased' or s.lease_token is distinct from p_lease or s.lease_until<=clock_timestamp()+interval '12 seconds' then return false;end if;
+ if not exists(select 1 from public.liyanna_documents where business_id=p_business and id=p.document_id and kind='invoice' and payload=p.source_document) then return false;end if;
+ return exists(select 1 from public.liyanna_customers where business_id=p_business and id=p.customer_id and payload->>'name'=p.source_document#>>'{customer,name}' and coalesce(payload->>'email','')=coalesce(p.source_document#>>'{customer,email}','') and coalesce(payload->>'phone','')=coalesce(p.source_document#>>'{customer,phone}',''));
+end $$;
+revoke all on function public.liyanna_authorize_review_dispatch(uuid,uuid,uuid) from public,anon,authenticated;
+grant execute on function public.liyanna_authorize_review_dispatch(uuid,uuid,uuid) to liyanna_review_dispatcher;

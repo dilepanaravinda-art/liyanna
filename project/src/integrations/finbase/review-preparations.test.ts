@@ -80,7 +80,7 @@ describe('persisted draft-contract review preparations',()=>{
   await expect(db.query('select public.liyanna_claim_review_dispatch($1,$2)',[bid,id])).rejects.toThrow(/permission denied/);
   await db.exec('reset role;set role liyanna_review_dispatcher');
   const claim=async()=> (await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;
-  const first=await claim();expect(first.status).toBe('claimed');expect((await claim()).status).toBe('busy');
+  const first=await claim();expect(first.status).toBe('claimed');expect((await db.query<{allowed:boolean}>('select public.liyanna_authorize_review_dispatch($1,$2,$3) allowed',[bid,id,first.leaseToken])).rows[0].allowed).toBe(true);expect((await claim()).status).toBe('busy');
   const outcome={status:'staged',receiptId:crypto.randomUUID(),duplicate:false,payloadHash:'a'.repeat(64),postingAuthorized:false};
   const finish=()=>db.query('select public.liyanna_finish_review_dispatch($1,$2,$3::jsonb)',[id,first.leaseToken,JSON.stringify(outcome)]);
   await finish();await finish();expect((await claim()).status).toBe('staged');
@@ -91,6 +91,7 @@ describe('persisted draft-contract review preparations',()=>{
   const first=(await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;
   await db.exec('reset role');await db.query("update public.liyanna_review_dispatches set lease_until=clock_timestamp()-interval '1 second' where preparation_id=$1",[id]);
   await db.exec('set role liyanna_review_dispatcher');
+  expect((await db.query<{allowed:boolean}>('select public.liyanna_authorize_review_dispatch($1,$2,$3) allowed',[bid,id,first.leaseToken])).rows[0].allowed).toBe(false);
   await expect(db.query('select public.liyanna_finish_review_dispatch($1,$2,$3::jsonb)',[id,first.leaseToken,JSON.stringify({status:'retry',code:'NETWORK_OR_TIMEOUT',postingAuthorized:false})])).rejects.toThrow(/stale_dispatch_lease/);
   await user(owner);await db.query('select public.liyanna_finbase_destination($1,$2,1)',[bid,'revoke']);await db.exec('reset role;set role liyanna_review_dispatcher');
   const blocked=(await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;expect(blocked.code).toBe('DESTINATION_CHANGED');
