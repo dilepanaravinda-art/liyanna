@@ -146,3 +146,14 @@ Source commit 1b8a14395bed16d99b84596399279781e00cb063 adds a server-only adapte
 Full validation run 44647775341 passed 252 application tests (142 Node + 110 Vitest), TypeScript, release checks, production build and runtime smoke. All five Chromium scenarios passed in run 44647775407. The seven sender tests use injected transports, not real partner traffic. FINBASE main's delivery response was rechecked at blob 22bce29162a1d7a850739b4729d4620acb86c92a.
 
 The SaaS continues to serve the previously verified cloud review runtime at https://liyanna-preview.vercel.app (deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx READY; health HTTP 200). The inactive adapter requires no runtime rollout. Persistent dispatch authorization/revocation checks, delivery-attempt/receipt persistence, sandbox secret provisioning, real network acceptance, issuance approval and accounting posting remain unfinished. See docs/FINBASE-SANDBOX-SENDER.md and docs/NEXT-PLAN.md.
+
+
+## 20 November 2026 — proposed durable dispatch ledger
+
+Source 390f7fa3faa637632c73d980b831d025d46e84b8 adds migration 20261120090000_finbase_dispatch_ledger.sql and isolated PostgreSQL tests. The migration has NOT been applied to the connected database. No dispatcher membership, worker, route, credential or delivery flag was activated.
+
+The proposed restricted NOLOGIN role can execute claim/finish functions but cannot mutate tables directly; browser roles cannot call the functions or access ledger tables. Claim serializes on the source business, rechecks owner, destination revision/config, exact invoice contents and matching customer, then issues a bounded lease. The ledger preserves receipts, limits attempts, schedules retry backoff and rejects expired/replaced completions or changed acknowledgements. Results accept only bounded sanitized codes or validated receipt metadata. An identical completed acknowledgement is idempotent. Requests already in flight cannot be remotely cancelled by local revocation; subsequent claims are blocked.
+
+GitHub validation run 44658163938 passed locked dependencies, release checks, TypeScript, 255 application tests (142 Node + 113 Vitest), production build and runtime smoke. All five existing Chromium scenarios passed in run 44658163907. Ledger tests use isolated PostgreSQL/PGlite; no real partner traffic or production dispatcher was exercised.
+
+The SaaS remains on the previously verified cloud-review deployment dpl_91HBcgUxukWL1ncCQgutgdx8xKhx at https://liyanna-preview.vercel.app (READY; health HTTP 200). The inactive schema foundation requires no runtime rollout. See docs/FINBASE-DISPATCH-LEDGER.md and docs/NEXT-PLAN.md for controlled sandbox activation, worker wiring, receipt/history UI and remaining real-account/issuance gates.

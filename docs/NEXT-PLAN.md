@@ -8,6 +8,10 @@ LIYANNA now saves owner-only draft destinations and immutable cloud invoice revi
 
 The server-only sandbox sender adapter is implemented and tested with injected transports. It validates an exact HTTPS destination, rejects redirects/cookies, caps receipt size, applies a timeout and classifies authentication/conflict/temporary errors. It serializes the stored event identically for retries and returns a receipt/payload hash without raw credentials. It has no route, scheduler or live credential wiring. See docs/FINBASE-SANDBOX-SENDER.md.
 
+## Proposed durable delivery ledger
+
+The source now includes an isolated-tested PostgreSQL ledger migration with restricted dispatcher functions, source/destination/customer rechecks, leases, bounded retries, receipt preservation and idempotent acknowledgements. It has NOT been applied to LIYANNA, and no dispatcher identity or live worker is provisioned. See docs/FINBASE-DISPATCH-LEDGER.md.
+
 ## 1. Real-account sandbox acceptance
 
 Use dedicated LIYANNA and FINBASE sandbox accounts. Save/sync one invoice and matching customer, declare the verified LIYANNA business ID as both source tenant and source business, confirm destination company membership/currency, then stage the downloaded event. Verify the receipt, exact retry and source/version conflicts. Capture actual password/cloud/PDF workflows too. Automated tests use synthetic Auth responses and database-role claims, not real account sign-in.
