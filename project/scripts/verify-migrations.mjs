@@ -10,6 +10,7 @@ export const MIGRATION_ORDER = Object.freeze([
   '20261118100300_vig_worker_operations.sql',
   '20261119100000_finbase_review_destinations.sql',
   '20261119110000_finbase_review_preparations.sql',
+  '20261120090000_finbase_dispatch_ledger.sql',
 ]);
 export function inspectMigrations(directory) {
   const actual = readdirSync(directory).filter(name => name.endsWith('.sql')).sort();

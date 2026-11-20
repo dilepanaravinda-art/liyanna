@@ -19,7 +19,7 @@ describe('persisted draft-contract review preparations',()=>{
    create table public.liyanna_customers(business_id uuid,id uuid,payload jsonb,primary key(business_id,id));
    create function liyanna_private.scope(b uuid) returns text language sql stable security definer set search_path='' as $$select case when owner_id=auth.uid() then 'owner' else 'all' end from public.liyanna_businesses where id=b and auth.uid() is not null$$;
    grant usage on schema liyanna_private to authenticated;grant execute on function liyanna_private.scope(uuid) to authenticated;`);
-  for(const name of ['20261119100000_finbase_review_destinations.sql','20261119110000_finbase_review_preparations.sql'])await db.exec(readFileSync(new URL('../../../../database/migrations/'+name,import.meta.url),'utf8'));
+  for(const name of ['20261119100000_finbase_review_destinations.sql','20261119110000_finbase_review_preparations.sql','20261120090000_finbase_dispatch_ledger.sql'])await db.exec(readFileSync(new URL('../../../../database/migrations/'+name,import.meta.url),'utf8'));
  },30000);
  beforeEach(async()=>{
   await db.exec('reset role');const ws=emptyWorkspace();bid=ws.business.id;cid=crypto.randomUUID();ws.business.currency='LKR';
@@ -75,4 +75,37 @@ describe('persisted draft-contract review preparations',()=>{
   await mutate(d=>{d.currency='LKR';d.issueDate='2026-02-30';});await expect(prepare()).rejects.toThrow();
   await mutate(d=>{d.issueDate='2026-11-19';d.items[0].quantity='0';});await expect(prepare()).rejects.toThrow(/amount/);
  });
+ it('restricts dispatcher calls to its isolated role and preserves completed receipts',async()=>{
+  const prepared=await prepare(),id=prepared.receipt.id;
+  await expect(db.query('select public.liyanna_claim_review_dispatch($1,$2)',[bid,id])).rejects.toThrow(/permission denied/);
+  await db.exec('reset role;set role liyanna_review_dispatcher');
+  const claim=async()=> (await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;
+  const first=await claim();expect(first.status).toBe('claimed');expect((await claim()).status).toBe('busy');
+  const outcome={status:'staged',receiptId:crypto.randomUUID(),duplicate:false,payloadHash:'a'.repeat(64),postingAuthorized:false};
+  const finish=()=>db.query('select public.liyanna_finish_review_dispatch($1,$2,$3::jsonb)',[id,first.leaseToken,JSON.stringify(outcome)]);
+  await finish();await finish();expect((await claim()).status).toBe('staged');
+  await expect(db.exec('delete from public.liyanna_review_dispatch_attempts')).rejects.toThrow(/permission denied/);
+ });
+ it('rejects expired worker completions and changed destinations before another claim',async()=>{
+  const id=(await prepare()).receipt.id;await db.exec('reset role;set role liyanna_review_dispatcher');
+  const first=(await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;
+  await db.exec('reset role');await db.query("update public.liyanna_review_dispatches set lease_until=clock_timestamp()-interval '1 second' where preparation_id=$1",[id]);
+  await db.exec('set role liyanna_review_dispatcher');
+  await expect(db.query('select public.liyanna_finish_review_dispatch($1,$2,$3::jsonb)',[id,first.leaseToken,JSON.stringify({status:'retry',code:'NETWORK_OR_TIMEOUT',postingAuthorized:false})])).rejects.toThrow(/stale_dispatch_lease/);
+  await user(owner);await db.query('select public.liyanna_finbase_destination($1,$2,1)',[bid,'revoke']);await db.exec('reset role;set role liyanna_review_dispatcher');
+  const blocked=(await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;expect(blocked.code).toBe('DESTINATION_CHANGED');
+ });
+
+ it('persists retry backoff and rejects raw details or conflicting acknowledgements',async()=>{
+  const id=(await prepare()).receipt.id;await db.exec('reset role;set role liyanna_review_dispatcher');
+  const claim=async()=> (await db.query<{result:any}>('select public.liyanna_claim_review_dispatch($1,$2) result',[bid,id])).rows[0].result;
+  const first=await claim();
+  const finish=(r:unknown)=>db.query('select public.liyanna_finish_review_dispatch($1,$2,$3::jsonb)',[id,first.leaseToken,JSON.stringify(r)]);
+  await expect(finish({status:'retry',code:'raw-secret',postingAuthorized:false})).rejects.toThrow(/invalid_dispatch_result/);
+  await expect(finish({status:'retry',code:'NETWORK_OR_TIMEOUT',postingAuthorized:false,token:'secret'})).rejects.toThrow(/invalid_dispatch_result/);
+  await finish({status:'retry',code:'NETWORK_OR_TIMEOUT',postingAuthorized:false});
+  expect((await claim()).status).toBe('waiting');
+  await expect(finish({status:'blocked',code:'CREDENTIAL_REQUIRED',postingAuthorized:false})).rejects.toThrow(/dispatch_result_conflict/);
+ });
+
 });
